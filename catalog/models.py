@@ -19,7 +19,6 @@ class Genre(models.Model):
 class Musician(AbstractUser):
     full_name = models.CharField(max_length=255)
     pseudonym = models.CharField(max_length=255, blank=True)
-    instruments = models.ManyToManyField(Instrument, related_name="musicians")
 
     class Meta:
         ordering = ["username"]
