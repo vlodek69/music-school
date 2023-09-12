@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>"Rattle" Music School Home</h1>
+    <p>Welcome to Best Music School Ever!</p>
+    <h2>Dynamic content</h2>
+    <p>The Rattle Music School has the following record counts:</p>
+    <ul>
+        <li><strong>Musicians:</strong> {{ num_musicians }}</li>
+        <li><strong>Bands:</strong> {{ num_bands }}</li>
+        <li><strong>Songs:</strong> {{ num_songs }}</li>
+    </ul>
+
+    <p>You have visited this page
+        {{ num_visits }} time{{ num_visits|pluralize }}.
+    </p>
+
+{% endblock %}
