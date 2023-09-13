@@ -9,7 +9,7 @@
   <br>
 
   <li class="list-group-item"><a href="{% url 'catalog:index' %}">Home</a></li>
-  <li class="list-group-item"><a href="#">All musicians</a></li>
-  <li class="list-group-item"><a href="#">All bands</a></li>
-  <li class="list-group-item"><a href="#">All songs</a></li>
+  <li class="list-group-item"><a href="{% url 'catalog:musician-list' %}">All musicians</a></li>
+  <li class="list-group-item"><a href="{% url 'catalog:band-list' %}">All bands</a></li>
+  <li class="list-group-item"><a href="{% url 'catalog:song-list' %}">All songs</a></li>
 </ul>
