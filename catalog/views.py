@@ -26,3 +26,6 @@ def index(request):
 class MusicianListView(generic.ListView):
     model = Musician
 
+
+class BandListView(generic.ListView):
+    model = Band
