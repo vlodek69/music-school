@@ -16,11 +16,7 @@
         <td>{{ song.id }}</td>
         <td>{{ song.name }}</td>
         <td>{{ song.albums.first.band.name }}</td>
-        <td>
-          {% for album in song.albums.all %}
-            {{ album.name }}
-          {% endfor %}
-        </td>
+        <td>{{ song.album_list|join:", " }}</td>
       </tr>
     {% endfor %}
     </table>
