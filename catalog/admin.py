@@ -22,7 +22,6 @@ class MusicianAdmin(UserAdmin):
         (("Additional info", {"fields": (
             "full_name",
             "pseudonym",
-            "instruments",
         )}),)
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
@@ -33,7 +32,6 @@ class MusicianAdmin(UserAdmin):
                     "fields": (
                         "full_name",
                         "pseudonym",
-                        "instruments",
                     )
                 },
             ),
