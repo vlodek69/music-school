@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>{{ musician.full_name }}</h1>
+
+  <h3>Instruments: {{ musician.instrument_list|join:", " }}</h3>
+
+{% endblock %}
