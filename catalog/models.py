@@ -27,6 +27,13 @@ class Musician(AbstractUser):
     def __str__(self) -> str:
         return self.full_name
 
+    @property
+    def instrument_list(self):
+        return list(set(
+            instrument.name for performance in self.performance_set.all()
+            for instrument in performance.instruments.all()
+        ))
+
 
 class Performance(models.Model):
     musician = models.ForeignKey(Musician, on_delete=models.CASCADE)
