@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Song List</h1>
+
+  {% if song_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Band</th>
+        <th>Album</th>
+      </tr>
+    {% for song in song_list %}
+      <tr>
+        <td>{{ song.id }}</td>
+        <td>{{ song.name }}</td>
+        <td>{{ song.albums.first.band.name }}</td>
+        <td>
+          {% for album in song.albums.all %}
+            {{ album.name }}
+          {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+    </table>
+  {% else %}
+    <p>There are no songs in school yet.</p>
+  {% endif %}
+
+{% endblock content %}
