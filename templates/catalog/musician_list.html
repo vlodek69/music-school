@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Musician List</h1>
+
+  {% if musician_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Full name</th>
+        <th>Pseudonym</th>
+      </tr>
+    {% for musician in musician_list %}
+      <tr>
+        <td>{{ musician.id }}</td>
+        <td><a href="{{ musician.get_absolute_url }}">{{ musician.username }} {% if user == musician %} (Me){% endif %}</a></td>
+        <td>{{ musician.full_name }}</td>
+        <td>{{ musician.pseudonym }}</td>
+      </tr>
+    {% endfor %}
+
+    </table>
+  {% else %}
+    <p>There are no musicians in the school yet.</p>
+  {% endif %}
+{% endblock content %}

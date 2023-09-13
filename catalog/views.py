@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
 from django.shortcuts import render
+from django.views import generic
 
-from catalog.models import Band, Song
+from catalog.models import Band, Song, Musician
 
 
 def index(request):
@@ -21,3 +21,8 @@ def index(request):
     }
 
     return render(request, "catalog/index.html", context=context)
+
+
+class MusicianListView(generic.ListView):
+    model = Musician
+
