@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ song.name }}</h1>
+
+  {% if song.albums and song.albums.first.band %}
+    <h3>by {{ song.albums.first.band.name }}</h3>
+
+    <br>
+
+    <h3>Featured in album{{ song.albums.all|pluralize }}</h3>
+    <ul>
+      {% for album in song.albums.all %}
+        <li>{{ album.name }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Performed by:</h3>
+    <ul>
+      {% for member in song.performances.all %}
+        <li>{{ member }}</li>
+      {% endfor %}
+    </ul>
+
+  {% endif %}
+
+{% endblock %}
