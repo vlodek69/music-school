@@ -55,6 +55,10 @@ class Song(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    @property
+    def album_list(self) -> list[str]:
+        return [album.name for album in self.albums.all()]
+
 
 class Album(models.Model):
     name = models.CharField(max_length=255)
