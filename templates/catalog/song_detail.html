@@ -3,7 +3,7 @@
 {% block content %}
   <h1>{{ song.name }}</h1>
 
-  {% if song.albums and song.albums.first.band %}
+  {% if song.albums.all and song.albums.first.band %}
     <h3>by {{ song.albums.first.band.name }}</h3>
 
     <br>
