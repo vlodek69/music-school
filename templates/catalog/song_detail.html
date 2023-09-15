@@ -4,7 +4,7 @@
   <h1>{{ song.name }}</h1>
 
   {% if song.albums.all and song.albums.first.band %}
-    <h3>by {{ song.albums.first.band.name }}</h3>
+    <h3>by <a href="{{ song.albums.first.band.get_absolute_url }}">{{ song.albums.first.band.name }}</a></h3>
 
     <br>
 
@@ -18,7 +18,7 @@
     <h3>Performed by:</h3>
     <ul>
       {% for member in song.performances.all %}
-        <li>{{ member }}</li>
+        <li><a href="{{ member.musician.get_absolute_url }}">{{ member }}</a></li>
       {% endfor %}
     </ul>
 

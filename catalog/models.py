@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 
 class Instrument(models.Model):
@@ -34,6 +35,9 @@ class Musician(AbstractUser):
             for instrument in performance.instruments.all()
         ))
 
+    def get_absolute_url(self):
+        return reverse("catalog:musician-detail", kwargs={"pk": self.pk})
+
 
 class Performance(models.Model):
     musician = models.ForeignKey(Musician, on_delete=models.CASCADE)
@@ -54,6 +58,9 @@ class Band(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("catalog:band-detail", kwargs={"pk": self.pk})
+
 
 class Song(models.Model):
     name = models.CharField(max_length=255)
@@ -65,6 +72,9 @@ class Song(models.Model):
     @property
     def album_list(self) -> list[str]:
         return [album.name for album in self.albums.all()]
+
+    def get_absolute_url(self):
+        return reverse("catalog:song-detail", kwargs={"pk": self.pk})
 
 
 class Album(models.Model):

@@ -11,7 +11,7 @@
   <h3>Member of:</h3>
   <ul>
     {% for band in musician.bands.all %}
-      <li>{{ band.name }}</li>
+      <li><a href="{{ band.get_absolute_url }}">{{ band.name }}</a></li>
     {% endfor %}
   </ul>
 
@@ -29,8 +29,8 @@
       {% for song in performance.songs.all %}
         <tr>
           <td>{{ song.id }}</td>
-          <td>{{ song.name }}</td>
-          <td>{{ song.albums.first.band.name }}</td>
+          <td><a href="{{ song.get_absolute_url }}">{{ song.name }}</a></td>
+          <td><a href="{{ song.albums.first.band.get_absolute_url }}">{{ song.albums.first.band.name }}</a></td>
           <td>{{ song.album_list|join:", " }}</td>
           <td>{{ performance.instruments.all|join:", " }}</td>
         </tr>

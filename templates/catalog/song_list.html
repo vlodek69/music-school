@@ -14,9 +14,17 @@
     {% for song in song_list %}
       <tr>
         <td>{{ song.id }}</td>
-        <td>{{ song.name }}</td>
-        <td>{{ song.albums.first.band.name }}</td>
-        <td>{{ song.album_list|join:", " }}</td>
+        <td><a href="{{ song.get_absolute_url }}">{{ song.name }}</a></td>
+        {% if song.albums.first.band %}
+          <td><a href="{{ song.albums.first.band.get_absolute_url }}">{{ song.albums.first.band.name }}</a></td>
+        {% else %}
+          <td>-</td>
+        {% endif %}
+        {% if song.albums.all %}
+          <td>{{ song.album_list|join:", " }}</td>
+        {% else %}
+          <td>-</td>
+        {% endif %}
       </tr>
     {% endfor %}
     </table>
