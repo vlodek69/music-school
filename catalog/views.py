@@ -5,7 +5,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
-    SongCreationForm, PerformanceCreationForm, InstrumentCreationForm
+    SongCreationForm, PerformanceCreationForm, InstrumentCreationForm, \
+    AlbumCreationForm, GenreCreationForm
 from catalog.models import Band, Song, Musician
 
 
@@ -64,6 +65,30 @@ class BandCreateView(generic.CreateView):
     model = Band
     fields = "__all__"
     success_url = reverse_lazy("catalog:band-list")
+
+
+def album_create_view(request):
+    album_creation_form = AlbumCreationForm()
+    genre_creation_form = GenreCreationForm()
+    if request.method == "POST":
+        if "album" in request.POST:
+            album_creation_form = AlbumCreationForm(request.POST)
+            if album_creation_form.is_valid():
+                album_creation_form.save()
+                return redirect(
+                    "catalog:band-detail",
+                    pk=request.POST
+                )
+        if "genre" in request.POST:
+            genre_creation_form = GenreCreationForm(request.POST)
+            if genre_creation_form.is_valid():
+                genre_creation_form.save()
+                return redirect("catalog:album-create")
+    context = {
+        "album_creation_form": album_creation_form,
+        "genre_creation_form": genre_creation_form,
+    }
+    return render(request, "catalog/album_form.html", context=context)
 
 
 class SongListView(generic.ListView):
