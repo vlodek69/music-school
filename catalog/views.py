@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
 from django.views import generic
 
@@ -33,6 +34,14 @@ class MusicianDetailView(generic.DetailView):
         "performance_set",
         "performance_set__songs",
         "bands"
+    )
+
+
+class MusicianCreateView(generic.CreateView):
+    model = Musician
+    fields = UserCreationForm.Meta.fields + (
+        "full_name",
+        "pseudonym",
     )
 
 
