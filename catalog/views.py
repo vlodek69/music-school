@@ -4,7 +4,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from catalog.forms import MusicianCreationForm, MusicianUpdateForm
+from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
+    SongCreationForm
 from catalog.models import Band, Song, Musician
 
 
@@ -67,3 +68,9 @@ class SongListView(generic.ListView):
 class SongDetailView(generic.DetailView):
     model = Song
     queryset = Song.objects.prefetch_related("performances", "albums__band")
+
+
+class SongCreateView(generic.CreateView):
+    model = Song
+    form_class = SongCreationForm
+    success_url = reverse_lazy("catalog:song-list")
