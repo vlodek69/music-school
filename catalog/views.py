@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 
-from catalog.forms import MusicianCreationForm
+from catalog.forms import MusicianCreationForm, MusicianUpdateForm
 from catalog.models import Band, Song, Musician
 
 
@@ -41,6 +42,12 @@ class MusicianDetailView(generic.DetailView):
 class MusicianCreateView(generic.CreateView):
     model = Musician
     form_class = MusicianCreationForm
+
+
+class MusicianUpdateView(generic.UpdateView):
+    model = Musician
+    form_class = MusicianUpdateForm
+    success_url = reverse_lazy("catalog:musician-list")
 
 
 class BandListView(generic.ListView):
