@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
 from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
     SongCreationForm, PerformanceCreationForm, InstrumentCreationForm, \
     AlbumCreationForm, GenreCreationForm
-from catalog.models import Band, Song, Musician
+from catalog.models import Band, Song, Musician, Album
 
 
 def index(request):
@@ -68,16 +68,16 @@ class BandCreateView(generic.CreateView):
 
 
 def album_create_view(request):
-    album_creation_form = AlbumCreationForm()
+    album_form = AlbumCreationForm()
     genre_creation_form = GenreCreationForm()
     if request.method == "POST":
         if "album" in request.POST:
-            album_creation_form = AlbumCreationForm(request.POST)
-            if album_creation_form.is_valid():
-                album_creation_form.save()
+            album_form = AlbumCreationForm(request.POST)
+            if album_form.is_valid():
+                album_form.save()
                 return redirect(
                     "catalog:band-detail",
-                    pk=request.POST
+                    pk=album_form.cleaned_data.get("band").id
                 )
         if "genre" in request.POST:
             genre_creation_form = GenreCreationForm(request.POST)
@@ -85,7 +85,35 @@ def album_create_view(request):
                 genre_creation_form.save()
                 return redirect("catalog:album-create")
     context = {
-        "album_creation_form": album_creation_form,
+        "album_form": album_form,
+        "genre_creation_form": genre_creation_form,
+    }
+    return render(request, "catalog/album_form.html", context=context)
+
+
+def album_update_view(request, pk):
+    album_obj = get_object_or_404(Album, id=pk)
+    album_form = AlbumCreationForm(instance=album_obj)
+    genre_creation_form = GenreCreationForm()
+    if request.method == "POST":
+        if "album" in request.POST:
+            album_form = AlbumCreationForm(
+                request.POST,
+                instance=album_obj
+            )
+            if album_form.is_valid():
+                album_form.save()
+                return redirect(
+                    "catalog:band-detail",
+                    pk=album_form.cleaned_data.get("band").id
+                )
+        if "genre" in request.POST:
+            genre_creation_form = GenreCreationForm(request.POST)
+            if genre_creation_form.is_valid():
+                genre_creation_form.save()
+                return redirect("catalog:album-update", pk=pk)
+    context = {
+        "album_form": album_form,
         "genre_creation_form": genre_creation_form,
     }
     return render(request, "catalog/album_form.html", context=context)

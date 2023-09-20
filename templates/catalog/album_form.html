@@ -5,7 +5,7 @@
   <h1>Create album</h1>
   <form action="" method="post">
     {% csrf_token %}
-    {{ album_creation_form|crispy }}
+    {{ album_form|crispy }}
 
     <input type="submit" value="Create album" class="btn btn-primary">
   </form>
