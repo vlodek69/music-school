@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from catalog.models import Musician, Song, Performance, Instrument
+from catalog.models import Musician, Song, Performance, Instrument, Album, \
+    Genre
 
 
 class MusicianCreationForm(UserCreationForm):
@@ -40,4 +41,20 @@ class InstrumentCreationForm(forms.ModelForm):
 
     class Meta:
         model = Instrument
+        fields = "__all__"
+
+
+class AlbumCreationForm(forms.ModelForm):
+    album = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+
+    class Meta:
+        model = Album
+        fields = "__all__"
+
+
+class GenreCreationForm(forms.ModelForm):
+    genre = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+
+    class Meta:
+        model = Genre
         fields = "__all__"
