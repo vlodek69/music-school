@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
 from django.views import generic
 
+from catalog.forms import MusicianCreationForm
 from catalog.models import Band, Song, Musician
 
 
@@ -39,10 +40,7 @@ class MusicianDetailView(generic.DetailView):
 
 class MusicianCreateView(generic.CreateView):
     model = Musician
-    fields = UserCreationForm.Meta.fields + (
-        "full_name",
-        "pseudonym",
-    )
+    form_class = MusicianCreationForm
 
 
 class BandListView(generic.ListView):
