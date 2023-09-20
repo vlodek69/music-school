@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
 from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
-    SongCreationForm
+    SongCreationForm, PerformanceCreationForm, InstrumentCreationForm
 from catalog.models import Band, Song, Musician
 
 
@@ -70,7 +70,39 @@ class SongDetailView(generic.DetailView):
     queryset = Song.objects.prefetch_related("performances", "albums__band")
 
 
-class SongCreateView(generic.CreateView):
-    model = Song
-    form_class = SongCreationForm
-    success_url = reverse_lazy("catalog:song-list")
+# class SongCreateView(generic.TemplateView):
+#     template_name = "catalog/song_form.html"
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["song_creation_form"] = SongCreationForm()
+#         context["performance_creation_form"] = PerformanceCreationForm()
+#         return context
+
+
+def song_create_view(request):
+    song_creation_form = SongCreationForm()
+    performance_creation_form = PerformanceCreationForm()
+    instrument_creation_form = InstrumentCreationForm()
+    if request.method == "POST":
+        if "song" in request.POST:
+            song_creation_form = SongCreationForm(request.POST)
+            if song_creation_form.is_valid():
+                song_creation_form.save()
+                return redirect("catalog:song-list")
+        if "performance" in request.POST:
+            performance_creation_form = PerformanceCreationForm(request.POST)
+            if performance_creation_form.is_valid():
+                performance_creation_form.save()
+                return redirect("catalog:song-create")
+        if "instrument" in request.POST:
+            instrument_creation_form = InstrumentCreationForm(request.POST)
+            if instrument_creation_form.is_valid():
+                instrument_creation_form.save()
+                return redirect("catalog:song-create")
+    context = {
+        "song_creation_form": song_creation_form,
+        "performance_creation_form": performance_creation_form,
+        "instrument_creation_form": instrument_creation_form,
+    }
+    return render(request, "catalog/song_form.html", context=context)
