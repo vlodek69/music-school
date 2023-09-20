@@ -60,6 +60,12 @@ class BandDetailView(generic.DetailView):
     queryset = Band.objects.prefetch_related("members", "albums")
 
 
+class BandCreateView(generic.CreateView):
+    model = Band
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:band-list")
+
+
 class SongListView(generic.ListView):
     model = Song
     queryset = Song.objects.prefetch_related("albums", "albums__band")
@@ -68,16 +74,6 @@ class SongListView(generic.ListView):
 class SongDetailView(generic.DetailView):
     model = Song
     queryset = Song.objects.prefetch_related("performances", "albums__band")
-
-
-# class SongCreateView(generic.TemplateView):
-#     template_name = "catalog/song_form.html"
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["song_creation_form"] = SongCreationForm()
-#         context["performance_creation_form"] = PerformanceCreationForm()
-#         return context
 
 
 def song_create_view(request):
