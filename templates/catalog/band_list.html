@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Band List</h1>
+  <h1>
+    Band List
+    <a href="{% url 'catalog:band-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
 
   {% if band_list %}
     <ul>

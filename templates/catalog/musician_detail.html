@@ -2,7 +2,12 @@
 
 {% block content %}
 
-  <h1>{{ musician.full_name }}</h1>
+  <h1>
+    {{ musician.full_name }}
+    <a href="{% url 'catalog:musician-update' pk=musician.id %}" class="btn btn-primary link-to-page">
+      Update
+    </a>
+  </h1>
 
   <h3>Instruments: {{ musician.instrument_list|join:", " }}</h3>
 

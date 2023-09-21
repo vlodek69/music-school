@@ -16,9 +16,19 @@
   {% endif %}
 
   {% if band.albums.all %}
-    <h3>Albums:</h3>
+    <h3>
+      Albums:
+      <a href="{% url 'catalog:album-create' %}" class="btn btn-primary link-to-page">
+        Create
+      </a>
+    </h3>
     {% for album in band.albums.all %}
-      <h4>{{ album.name }}({{ album.year_published }})</h4>
+      <h4>
+        {{ album.name }}({{ album.year_published }})
+        <a href="{% url 'catalog:album-update' pk=album.id %}" class="btn btn-primary">
+          Update
+        </a>
+      </h4>
       <h5>Genre: {{ album.genre.name }}</h5>
       {% if album.songs.all %}
         <ul>
@@ -32,6 +42,9 @@
     {% endfor %}
   {% else %}
     <p>This band has no albums yet.</p>
+    <a href="{% url 'catalog:album-create' %}" class="btn btn-primary">
+      Create Album
+    </a>
   {% endif %}
 
 {% endblock %}
