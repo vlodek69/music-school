@@ -2,7 +2,12 @@
 
 {% block content %}
 
-  <h1>{{ band.name }}</h1>
+  <h1>
+    {{ band.name }}
+    <a href="{% url 'catalog:band-update' pk=band.id %}" class="btn btn-primary link-to-page">
+      Update band
+    </a>
+  </h1>
 
   {% if band.members %}
     <h3>Band members:</h3>
@@ -19,7 +24,7 @@
     <h3>
       Albums:
       <a href="{% url 'catalog:album-create' %}" class="btn btn-primary link-to-page">
-        Create
+        Create album
       </a>
     </h3>
     {% for album in band.albums.all %}
@@ -43,7 +48,7 @@
   {% else %}
     <p>This band has no albums yet.</p>
     <a href="{% url 'catalog:album-create' %}" class="btn btn-primary">
-      Create Album
+      Create album
     </a>
   {% endif %}
 

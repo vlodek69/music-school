@@ -67,6 +67,12 @@ class BandCreateView(generic.CreateView):
     success_url = reverse_lazy("catalog:band-list")
 
 
+class BandUpdateView(generic.UpdateView):
+    model = Band
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:band-detail")
+
+
 def album_create_view(request):
     album_form = AlbumCreationForm()
     genre_creation_form = GenreCreationForm()

@@ -3,7 +3,7 @@ from django.urls import path
 from catalog.views import index, MusicianListView, BandListView, SongListView, \
     SongDetailView, BandDetailView, MusicianDetailView, MusicianCreateView, \
     MusicianUpdateView, song_create_view, BandCreateView, album_create_view, \
-    album_update_view, song_update_view
+    album_update_view, song_update_view, BandUpdateView
 
 urlpatterns = [
     path("", index, name="index"),
@@ -26,6 +26,9 @@ urlpatterns = [
     path("bands/", BandListView.as_view(), name="band-list"),
     path("bands/<int:pk>/", BandDetailView.as_view(), name="band-detail"),
     path("bands/create/", BandCreateView.as_view(), name="band-create"),
+    path(
+        "bands/<int:pk>/update/", BandUpdateView.as_view(), name="band-update"
+    ),
     path("album/create/", album_create_view, name="album-create"),
     path("album/<int:pk>/update", album_update_view, name="album-update"),
     path("songs/", SongListView.as_view(), name="song-list"),
