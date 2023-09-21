@@ -2,12 +2,12 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  <h1>Create song</h1>
+  <h1>{{ song_form.initial|yesno:"Update,Create" }} song</h1>
   <form action="" method="post">
     {% csrf_token %}
-    {{ song_creation_form|crispy }}
+    {{ song_form|crispy }}
 
-    <input type="submit" value="Create song" class="btn btn-primary" name="create-song">
+    <input type="submit" value="{{ song_form.initial|yesno:"Update,Create" }} song" class="btn btn-primary" name="create-song">
   </form>
 
   <br>
