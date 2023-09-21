@@ -45,4 +45,26 @@
   {% else %}
     <p>There are no songs by this musician yet.</p>
   {% endif %}
+
+  <br>
+
+  {% if musician.performance_set.all %}
+    <h4>Performances</h4>
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Instruments</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    {% for performance in musician.performance_set.all %}
+      <tr>
+        <td>{{ performance.id }}</td>
+        <td>{{ performance.instruments.all|join:", " }}</td>
+        <td>Update</td>
+        <td>Delete</td>
+      </tr>
+    {% endfor %}
+    </table>
+  {% endif %}
 {% endblock %}
