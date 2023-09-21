@@ -130,14 +130,14 @@ class SongDetailView(generic.DetailView):
 
 
 def song_create_view(request):
-    song_creation_form = SongCreationForm()
+    song_form = SongCreationForm()
     performance_creation_form = PerformanceCreationForm()
     instrument_creation_form = InstrumentCreationForm()
     if request.method == "POST":
         if "song" in request.POST:
-            song_creation_form = SongCreationForm(request.POST)
-            if song_creation_form.is_valid():
-                song_creation_form.save()
+            song_form = SongCreationForm(request.POST)
+            if song_form.is_valid():
+                song_form.save()
                 return redirect("catalog:song-list")
         if "performance" in request.POST:
             performance_creation_form = PerformanceCreationForm(request.POST)
@@ -150,7 +150,36 @@ def song_create_view(request):
                 instrument_creation_form.save()
                 return redirect("catalog:song-create")
     context = {
-        "song_creation_form": song_creation_form,
+        "song_form": song_form,
+        "performance_creation_form": performance_creation_form,
+        "instrument_creation_form": instrument_creation_form,
+    }
+    return render(request, "catalog/song_form.html", context=context)
+
+
+def song_update_view(request, pk):
+    song_obj = get_object_or_404(Song, id=pk)
+    song_form = SongCreationForm(instance=song_obj)
+    performance_creation_form = PerformanceCreationForm()
+    instrument_creation_form = InstrumentCreationForm()
+    if request.method == "POST":
+        if "song" in request.POST:
+            song_form = SongCreationForm(request.POST, instance=song_obj)
+            if song_form.is_valid():
+                song_form.save()
+                return redirect("catalog:song-detail", pk=song_obj.id)
+        if "performance" in request.POST:
+            performance_creation_form = PerformanceCreationForm(request.POST)
+            if performance_creation_form.is_valid():
+                performance_creation_form.save()
+                return redirect("catalog:song-update", pk=song_obj.id)
+        if "instrument" in request.POST:
+            instrument_creation_form = InstrumentCreationForm(request.POST)
+            if instrument_creation_form.is_valid():
+                instrument_creation_form.save()
+                return redirect("catalog:song-update", pk=song_obj.id)
+    context = {
+        "song_form": song_form,
         "performance_creation_form": performance_creation_form,
         "instrument_creation_form": instrument_creation_form,
     }
