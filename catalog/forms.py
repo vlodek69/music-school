@@ -21,7 +21,7 @@ class MusicianUpdateForm(forms.ModelForm):
         fields = ["username", "full_name", "pseudonym"]
 
 
-class SongCreationForm(forms.ModelForm):
+class SongForm(forms.ModelForm):
     song = forms.BooleanField(widget=forms.HiddenInput, initial=True)
 
     class Meta:
@@ -65,7 +65,7 @@ class InstrumentCreationForm(forms.ModelForm):
         fields = "__all__"
 
 
-class AlbumCreationForm(forms.ModelForm):
+class AlbumForm(forms.ModelForm):
     album = forms.BooleanField(widget=forms.HiddenInput, initial=True)
 
     class Meta:

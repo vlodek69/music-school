@@ -5,8 +5,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
-    SongCreationForm, PerformanceCreationForm, InstrumentCreationForm, \
-    AlbumCreationForm, GenreCreationForm
+    SongForm, PerformanceCreationForm, InstrumentCreationForm, \
+    AlbumForm, GenreCreationForm
 from catalog.models import Band, Song, Musician, Album
 
 
@@ -70,15 +70,15 @@ class BandCreateView(generic.CreateView):
 class BandUpdateView(generic.UpdateView):
     model = Band
     fields = "__all__"
-    success_url = reverse_lazy("catalog:band-detail")
+    success_url = reverse_lazy("catalog:band-list")
 
 
 def album_create_view(request):
-    album_form = AlbumCreationForm()
+    album_form = AlbumForm()
     genre_creation_form = GenreCreationForm()
     if request.method == "POST":
         if "album" in request.POST:
-            album_form = AlbumCreationForm(request.POST)
+            album_form = AlbumForm(request.POST)
             if album_form.is_valid():
                 album_form.save()
                 return redirect(
@@ -99,11 +99,11 @@ def album_create_view(request):
 
 def album_update_view(request, pk):
     album_obj = get_object_or_404(Album, id=pk)
-    album_form = AlbumCreationForm(instance=album_obj)
+    album_form = AlbumForm(instance=album_obj)
     genre_creation_form = GenreCreationForm()
     if request.method == "POST":
         if "album" in request.POST:
-            album_form = AlbumCreationForm(
+            album_form = AlbumForm(
                 request.POST,
                 instance=album_obj
             )
@@ -136,12 +136,12 @@ class SongDetailView(generic.DetailView):
 
 
 def song_create_view(request):
-    song_form = SongCreationForm()
+    song_form = SongForm()
     performance_creation_form = PerformanceCreationForm()
     instrument_creation_form = InstrumentCreationForm()
     if request.method == "POST":
         if "song" in request.POST:
-            song_form = SongCreationForm(request.POST)
+            song_form = SongForm(request.POST)
             if song_form.is_valid():
                 song_form.save()
                 return redirect("catalog:song-list")
@@ -165,12 +165,12 @@ def song_create_view(request):
 
 def song_update_view(request, pk):
     song_obj = get_object_or_404(Song, id=pk)
-    song_form = SongCreationForm(instance=song_obj)
+    song_form = SongForm(instance=song_obj)
     performance_creation_form = PerformanceCreationForm()
     instrument_creation_form = InstrumentCreationForm()
     if request.method == "POST":
         if "song" in request.POST:
-            song_form = SongCreationForm(request.POST, instance=song_obj)
+            song_form = SongForm(request.POST, instance=song_obj)
             if song_form.is_valid():
                 song_form.save()
                 return redirect("catalog:song-detail", pk=song_obj.id)
