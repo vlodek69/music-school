@@ -6,7 +6,7 @@ from catalog.views import index, MusicianListView, BandListView, SongListView, \
     album_update_view, song_update_view, BandUpdateView, PerformanceCreateView, \
     PerformanceUpdateView, InstrumentListView, InstrumentUpdateView, \
     InstrumentDeleteView, GenreListView, GenreUpdateView, GenreDeleteView, \
-    GenreCreateView, InstrumentCreateView
+    GenreCreateView, InstrumentCreateView, PerformanceDeleteView
 
 urlpatterns = [
     path("", index, name="index"),
@@ -35,6 +35,11 @@ urlpatterns = [
         "performance/<int:pk>/update",
         PerformanceUpdateView.as_view(),
         name="performance-update"
+    ),
+    path(
+        "performance/<int:pk>/delete",
+        PerformanceDeleteView.as_view(),
+        name="performance-delete"
     ),
     path("bands/", BandListView.as_view(), name="band-list"),
     path("bands/<int:pk>/", BandDetailView.as_view(), name="band-detail"),

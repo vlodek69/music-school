@@ -205,6 +205,11 @@ class PerformanceUpdateView(generic.UpdateView):
     success_url = reverse_lazy("catalog:musician-list")
 
 
+class PerformanceDeleteView(generic.DeleteView):
+    model = Performance
+    success_url = reverse_lazy("catalog:musician-list")
+
+
 class InstrumentListView(generic.ListView):
     model = Instrument
 

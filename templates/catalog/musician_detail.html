@@ -69,8 +69,12 @@
       <tr>
         <td>{{ performance.id }}</td>
         <td>{{ performance.instruments.all|join:", " }}</td>
-        <td>Update</td>
-        <td>Delete</td>
+        <td>
+          <a href="{% url 'catalog:performance-update' pk=performance.id %}">Update</a>
+        </td>
+        <td>
+          <a href="{% url 'catalog:performance-delete' pk=performance.id %}">Delete</a>
+        </td>
       </tr>
     {% endfor %}
     </table>
