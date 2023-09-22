@@ -29,15 +29,15 @@
       <a href="{% url 'catalog:album-create' %}" class="btn btn-primary link-to-page">
         Create album
       </a>
-      <a href="{% url 'catalog:album-delete' %}" class="btn btn-danger link-to-page">
-        Delete
-      </a>
     </h3>
     {% for album in band.albums.all %}
       <h4>
         {{ album.name }}({{ album.year_published }})
         <a href="{% url 'catalog:album-update' pk=album.id %}" class="btn btn-primary">
           Update
+        </a>
+        <a href="{% url 'catalog:album-delete' pk=album.id %}" class="btn btn-danger">
+          Delete
         </a>
       </h4>
       <h5>Genre: {{ album.genre.name }}</h5>
