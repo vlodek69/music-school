@@ -32,6 +32,7 @@ def index(request):
 
 class MusicianListView(generic.ListView):
     model = Musician
+    paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(MusicianListView, self).get_context_data(**kwargs)
@@ -80,6 +81,7 @@ class MusicianUpdateView(generic.UpdateView):
 
 class BandListView(generic.ListView):
     model = Band
+    paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(BandListView, self).get_context_data(**kwargs)
@@ -189,6 +191,7 @@ class AlbumDeleteView(generic.DeleteView):
 
 class SongListView(generic.ListView):
     model = Song
+    paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SongListView, self).get_context_data(**kwargs)
