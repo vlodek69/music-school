@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Genres</h1>
+  {% if genre_list %}
+    <table class="table">
+      <tr>
+        <th>Genre</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    {% for genre in genre_list %}
+      <tr>
+        <td>{{ genre.name }}</td>
+        <td>Update</td>
+        <td>Delete</td>
+      </tr>
+    {% endfor %}
+
+    </table>
+  {% else %}
+    <p>There are no genres listed in the school yet.</p>
+  {% endif %}
+{% endblock %}

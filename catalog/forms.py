@@ -29,7 +29,7 @@ class SongForm(forms.ModelForm):
         fields = "__all__"
 
 
-class PerformanceCreationForm(forms.ModelForm):
+class PerformanceForm(forms.ModelForm):
     performance = forms.BooleanField(widget=forms.HiddenInput, initial=True)
 
     class Meta:

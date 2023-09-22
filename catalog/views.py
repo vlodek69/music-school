@@ -5,9 +5,10 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
-    SongForm, PerformanceCreationForm, InstrumentCreationForm, \
+    SongForm, PerformanceForm, InstrumentCreationForm, \
     AlbumForm, GenreCreationForm
-from catalog.models import Band, Song, Musician, Album
+from catalog.models import Band, Song, Musician, Album, Performance, \
+    Instrument, Genre
 
 
 def index(request):
@@ -137,7 +138,7 @@ class SongDetailView(generic.DetailView):
 
 def song_create_view(request):
     song_form = SongForm()
-    performance_creation_form = PerformanceCreationForm()
+    performance_creation_form = PerformanceForm()
     instrument_creation_form = InstrumentCreationForm()
     if request.method == "POST":
         if "song" in request.POST:
@@ -146,7 +147,7 @@ def song_create_view(request):
                 song_form.save()
                 return redirect("catalog:song-list")
         if "performance" in request.POST:
-            performance_creation_form = PerformanceCreationForm(request.POST)
+            performance_creation_form = PerformanceForm(request.POST)
             if performance_creation_form.is_valid():
                 performance_creation_form.save()
                 return redirect("catalog:song-create")
@@ -166,7 +167,7 @@ def song_create_view(request):
 def song_update_view(request, pk):
     song_obj = get_object_or_404(Song, id=pk)
     song_form = SongForm(instance=song_obj)
-    performance_creation_form = PerformanceCreationForm()
+    performance_creation_form = PerformanceForm()
     instrument_creation_form = InstrumentCreationForm()
     if request.method == "POST":
         if "song" in request.POST:
@@ -175,7 +176,7 @@ def song_update_view(request, pk):
                 song_form.save()
                 return redirect("catalog:song-detail", pk=song_obj.id)
         if "performance" in request.POST:
-            performance_creation_form = PerformanceCreationForm(request.POST)
+            performance_creation_form = PerformanceForm(request.POST)
             if performance_creation_form.is_valid():
                 performance_creation_form.save()
                 return redirect("catalog:song-update", pk=song_obj.id)
@@ -190,3 +191,57 @@ def song_update_view(request, pk):
         "instrument_creation_form": instrument_creation_form,
     }
     return render(request, "catalog/song_form.html", context=context)
+
+
+class PerformanceCreateView(generic.CreateView):
+    model = Performance
+    form_class = PerformanceForm
+    success_url = reverse_lazy("catalog:musician-list")
+
+
+class PerformanceUpdateView(generic.UpdateView):
+    model = Performance
+    form_class = PerformanceForm
+    success_url = reverse_lazy("catalog:musician-list")
+
+
+class InstrumentListView(generic.ListView):
+    model = Instrument
+
+
+class InstrumentCreateView(generic.CreateView):
+    model = Instrument
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:instrument-list")
+
+
+class InstrumentUpdateView(generic.UpdateView):
+    model = Instrument
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:instrument-list")
+
+
+class InstrumentDeleteView(generic.DeleteView):
+    model = Instrument
+    success_url = reverse_lazy("catalog:instrument-list")
+
+
+class GenreListView(generic.ListView):
+    model = Genre
+
+
+class GenreCreateView(generic.CreateView):
+    model = Genre
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:genre-list")
+
+
+class GenreUpdateView(generic.UpdateView):
+    model = Genre
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:genre-list")
+
+
+class GenreDeleteView(generic.DeleteView):
+    model = Genre
+    success_url = reverse_lazy("catalog:genre-list")

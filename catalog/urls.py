@@ -3,7 +3,10 @@ from django.urls import path
 from catalog.views import index, MusicianListView, BandListView, SongListView, \
     SongDetailView, BandDetailView, MusicianDetailView, MusicianCreateView, \
     MusicianUpdateView, song_create_view, BandCreateView, album_create_view, \
-    album_update_view, song_update_view, BandUpdateView
+    album_update_view, song_update_view, BandUpdateView, PerformanceCreateView, \
+    PerformanceUpdateView, InstrumentListView, InstrumentUpdateView, \
+    InstrumentDeleteView, GenreListView, GenreUpdateView, GenreDeleteView, \
+    GenreCreateView, InstrumentCreateView
 
 urlpatterns = [
     path("", index, name="index"),
@@ -23,6 +26,16 @@ urlpatterns = [
         MusicianUpdateView.as_view(),
         name="musician-update"
     ),
+    path(
+        "performance/create",
+        PerformanceCreateView.as_view(),
+        name="performance-create"
+    ),
+    path(
+        "performance/<int:pk>/update",
+        PerformanceUpdateView.as_view(),
+        name="performance-update"
+    ),
     path("bands/", BandListView.as_view(), name="band-list"),
     path("bands/<int:pk>/", BandDetailView.as_view(), name="band-detail"),
     path("bands/create/", BandCreateView.as_view(), name="band-create"),
@@ -35,6 +48,38 @@ urlpatterns = [
     path("songs/<int:pk>/", SongDetailView.as_view(), name="song-detail"),
     path("songs/create/", song_create_view, name="song-create"),
     path("songs/<int:pk>/update/", song_update_view, name="song-update"),
+    path("instruments/", InstrumentListView.as_view(), name="instrument-list"),
+    path(
+        "instruments/create/",
+        InstrumentCreateView.as_view(),
+        name="instrument-create"
+    ),
+    path(
+        "instruments/<int:pk>/update/",
+        InstrumentUpdateView.as_view(),
+        name="instrument-update"
+    ),
+    path(
+        "instruments/<int:pk>/delete/",
+        InstrumentDeleteView.as_view(),
+        name="instrument-delete"
+    ),
+    path("genres/", GenreListView.as_view(), name="genre-list"),
+    path(
+        "genres/create/",
+        GenreCreateView.as_view(),
+        name="genre-create"
+    ),
+    path(
+        "genres/<int:pk>/update/",
+        GenreUpdateView.as_view(),
+        name="genre-update"
+    ),
+    path(
+        "genres/<int:pk>/delete/",
+        GenreDeleteView.as_view(),
+        name="genre-delete"
+    ),
 ]
 
 app_name = "catalog"

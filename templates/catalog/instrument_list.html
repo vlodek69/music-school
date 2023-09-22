@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Instruments</h1>
+  {% if instrument_list %}
+    <table class="table">
+      <tr>
+        <th>Instrument</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    {% for instrument in instrument_list %}
+      <tr>
+        <td>{{ instrument.name }}</td>
+        <td>Update</td>
+        <td>Delete</td>
+      </tr>
+    {% endfor %}
+
+    </table>
+  {% else %}
+    <p>There are no instruments in the school yet.</p>
+  {% endif %}
+{% endblock %}
