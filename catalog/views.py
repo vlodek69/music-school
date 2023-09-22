@@ -1,12 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
 from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
     SongForm, PerformanceForm, InstrumentCreationForm, \
-    AlbumForm, GenreCreationForm
+    AlbumForm, GenreCreationForm, MusicianSearchForm, ByNameSearchForm
 from catalog.models import Band, Song, Musician, Album, Performance, \
     Instrument, Genre
 
@@ -32,6 +33,30 @@ def index(request):
 class MusicianListView(generic.ListView):
     model = Musician
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(MusicianListView, self).get_context_data(**kwargs)
+
+        search_input = self.request.GET.get("search_input")
+
+        context["search_form"] = MusicianSearchForm(initial={
+            "search_input": search_input
+        })
+        return context
+
+    def get_queryset(self):
+        queryset = get_user_model().objects.all()
+        form = MusicianSearchForm(self.request.GET)
+
+        if form.is_valid():
+            search_input = form.cleaned_data["search_input"]
+            return queryset.filter(
+                Q(full_name__icontains=search_input) |
+                Q(username__icontains=search_input) |
+                Q(pseudonym__icontains=search_input)
+            )
+
+        return queryset
+
 
 class MusicianDetailView(generic.DetailView):
     model = Musician
@@ -55,6 +80,27 @@ class MusicianUpdateView(generic.UpdateView):
 
 class BandListView(generic.ListView):
     model = Band
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(BandListView, self).get_context_data(**kwargs)
+
+        search_input = self.request.GET.get("search_input")
+
+        context["search_form"] = ByNameSearchForm(initial={
+            "search_input": search_input
+        })
+        return context
+
+    def get_queryset(self):
+        queryset = Band.objects.all()
+        form = ByNameSearchForm(self.request.GET)
+
+        if form.is_valid():
+            return queryset.filter(
+                name__icontains=form.cleaned_data["search_input"]
+            )
+
+        return queryset
 
 
 class BandDetailView(generic.DetailView):
@@ -128,7 +174,27 @@ def album_update_view(request, pk):
 
 class SongListView(generic.ListView):
     model = Song
-    queryset = Song.objects.prefetch_related("albums", "albums__band")
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(SongListView, self).get_context_data(**kwargs)
+
+        search_input = self.request.GET.get("search_input")
+
+        context["search_form"] = ByNameSearchForm(initial={
+            "search_input": search_input
+        })
+        return context
+
+    def get_queryset(self):
+        queryset = Song.objects.prefetch_related("albums", "albums__band")
+        form = ByNameSearchForm(self.request.GET)
+
+        if form.is_valid():
+            return queryset.filter(
+                name__icontains=form.cleaned_data["search_input"]
+            )
+
+        return queryset
 
 
 class SongDetailView(generic.DetailView):

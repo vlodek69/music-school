@@ -21,12 +21,34 @@ class MusicianUpdateForm(forms.ModelForm):
         fields = ["username", "full_name", "pseudonym"]
 
 
+class MusicianSearchForm(forms.Form):
+    search_input = forms.CharField(
+        max_length=150,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "placeholder": "Search by name..."
+        })
+    )
+
+
 class SongForm(forms.ModelForm):
     song = forms.BooleanField(widget=forms.HiddenInput, initial=True)
 
     class Meta:
         model = Song
         fields = "__all__"
+
+
+class ByNameSearchForm(forms.Form):
+    search_input = forms.CharField(
+        max_length=150,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "placeholder": "Search by name..."
+        })
+    )
 
 
 class PerformanceForm(forms.ModelForm):

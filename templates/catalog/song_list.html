@@ -8,6 +8,8 @@
     </a>
   </h1>
 
+  {% include "includes/search_bar.html" %}
+
   {% if song_list %}
     <table class="table">
       <tr>
@@ -34,7 +36,7 @@
     {% endfor %}
     </table>
   {% else %}
-    <p>There are no songs in school yet.</p>
+    <p>No songs found</p>
   {% endif %}
 
 {% endblock content %}
