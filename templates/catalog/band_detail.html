@@ -7,6 +7,9 @@
     <a href="{% url 'catalog:band-update' pk=band.id %}" class="btn btn-primary link-to-page">
       Update band
     </a>
+    <a href="{% url 'catalog:band-delete' pk=band.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
   </h1>
 
   {% if band.members %}
@@ -25,6 +28,9 @@
       Albums:
       <a href="{% url 'catalog:album-create' %}" class="btn btn-primary link-to-page">
         Create album
+      </a>
+      <a href="{% url 'catalog:album-delete' %}" class="btn btn-danger link-to-page">
+        Delete
       </a>
     </h3>
     {% for album in band.albums.all %}

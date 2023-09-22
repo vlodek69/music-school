@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ song.name }}</h1>
+  <h1>
+    {{ song.name }}
+    <a href="{% url 'catalog:song-update' pk=song.id %}" class="btn btn-primary link-to-page">
+      Update
+    </a>
+    <a href="{% url 'catalog:song-delete' pk=song.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+  </h1>
 
   {% if song.albums.all and song.albums.first.band %}
     <h3>by <a href="{{ song.albums.first.band.get_absolute_url }}">{{ song.albums.first.band.name }}</a></h3>

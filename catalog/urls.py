@@ -6,7 +6,8 @@ from catalog.views import index, MusicianListView, BandListView, SongListView, \
     album_update_view, song_update_view, BandUpdateView, PerformanceCreateView, \
     PerformanceUpdateView, InstrumentListView, InstrumentUpdateView, \
     InstrumentDeleteView, GenreListView, GenreUpdateView, GenreDeleteView, \
-    GenreCreateView, InstrumentCreateView, PerformanceDeleteView
+    GenreCreateView, InstrumentCreateView, PerformanceDeleteView, \
+    MusicianDeleteView, BandDeleteView, AlbumDeleteView, SongDeleteView
 
 urlpatterns = [
     path("", index, name="index"),
@@ -25,6 +26,11 @@ urlpatterns = [
         "musicians/<int:pk>/update/",
         MusicianUpdateView.as_view(),
         name="musician-update"
+    ),
+    path(
+        "musicians/<int:pk>/delete/",
+        MusicianDeleteView.as_view(),
+        name="musician-delete"
     ),
     path(
         "performance/create",
@@ -47,12 +53,21 @@ urlpatterns = [
     path(
         "bands/<int:pk>/update/", BandUpdateView.as_view(), name="band-update"
     ),
+    path(
+        "bands/<int:pk>/delete/", BandDeleteView.as_view(), name="band-delete"
+    ),
     path("album/create/", album_create_view, name="album-create"),
     path("album/<int:pk>/update", album_update_view, name="album-update"),
+    path(
+        "album/<int:pk>/delete", AlbumDeleteView.as_view(), name="album-delete"
+    ),
     path("songs/", SongListView.as_view(), name="song-list"),
     path("songs/<int:pk>/", SongDetailView.as_view(), name="song-detail"),
     path("songs/create/", song_create_view, name="song-create"),
     path("songs/<int:pk>/update/", song_update_view, name="song-update"),
+    path(
+        "songs/<int:pk>/delete/", SongDeleteView.as_view(), name="song-delete"
+    ),
     path("instruments/", InstrumentListView.as_view(), name="instrument-list"),
     path(
         "instruments/create/",

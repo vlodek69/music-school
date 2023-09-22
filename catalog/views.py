@@ -103,6 +103,11 @@ class BandListView(generic.ListView):
         return queryset
 
 
+class MusicianDeleteView(generic.DeleteView):
+    model = get_user_model()
+    success_url = reverse_lazy("catalog:musician-list")
+
+
 class BandDetailView(generic.DetailView):
     model = Band
     queryset = Band.objects.prefetch_related("members", "albums")
@@ -117,6 +122,11 @@ class BandCreateView(generic.CreateView):
 class BandUpdateView(generic.UpdateView):
     model = Band
     fields = "__all__"
+    success_url = reverse_lazy("catalog:band-list")
+
+
+class BandDeleteView(generic.DeleteView):
+    model = Band
     success_url = reverse_lazy("catalog:band-list")
 
 
@@ -170,6 +180,11 @@ def album_update_view(request, pk):
         "genre_creation_form": genre_creation_form,
     }
     return render(request, "catalog/album_form.html", context=context)
+
+
+class AlbumDeleteView(generic.DeleteView):
+    model = Album
+    success_url = reverse_lazy("catalog:band-list")
 
 
 class SongListView(generic.ListView):
@@ -257,6 +272,11 @@ def song_update_view(request, pk):
         "instrument_creation_form": instrument_creation_form,
     }
     return render(request, "catalog/song_form.html", context=context)
+
+
+class SongDeleteView(generic.DeleteView):
+    model = Song
+    success_url = reverse_lazy("catalog:song-list")
 
 
 class PerformanceCreateView(generic.CreateView):
