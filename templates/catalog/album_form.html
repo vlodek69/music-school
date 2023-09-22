@@ -2,12 +2,12 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-  <h1>Create album</h1>
+  <h1>{{ album_form.initial|yesno:"Update,Create" }} album</h1>
   <form action="" method="post">
     {% csrf_token %}
     {{ album_form|crispy }}
 
-    <input type="submit" value="Create album" class="btn btn-primary">
+    <input type="submit" value="{{ album_form.initial|yesno:"Update,Create" }} album" class="btn btn-primary">
   </form>
 
   <h1>Create genre</h1>
