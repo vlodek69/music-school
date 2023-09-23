@@ -30,7 +30,7 @@
         Create album
       </a>
     </h3>
-    {% for album in band.albums.all %}
+    {% for album in object_list %}
       <h4>
         {{ album.name }}({{ album.year_published }})
         <a href="{% url 'catalog:album-update' pk=album.id %}" class="btn btn-primary">

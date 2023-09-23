@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
+from django.views.generic.list import MultipleObjectMixin
 
 from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
     SongForm, PerformanceForm, InstrumentCreationForm, \
@@ -110,9 +112,16 @@ class MusicianDeleteView(generic.DeleteView):
     success_url = reverse_lazy("catalog:musician-list")
 
 
-class BandDetailView(generic.DetailView):
+class BandDetailView(generic.DetailView, MultipleObjectMixin):
     model = Band
     queryset = Band.objects.prefetch_related("members", "albums")
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        object_list = Album.objects.filter(band=self.get_object())
+        context = super(BandDetailView, self).get_context_data(
+            object_list=object_list, **kwargs)
+        return context
 
 
 class BandCreateView(generic.CreateView):
