@@ -26,7 +26,12 @@
   </ul>
   {% endif %}
 
-  {% if musician.performance_set.first.songs.all %}
+  <form method="get" class="form-inline">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Filter" />
+  </form>
+
+  {% if filter.qs %}
     <h3>Songs</h3>
     <table class="table">
       <tr>
@@ -36,7 +41,7 @@
         <th>Album</th>
         <th>Role</th>
       </tr>
-    {% for performance in musician.performance_set.all %}
+    {% for performance in filter.qs %}
       {% for song in performance.songs.all %}
         <tr>
           <td>{{ song.id }}</td>
@@ -49,7 +54,7 @@
     {% endfor %}
     </table>
   {% else %}
-    <p>There are no songs by this musician yet.</p>
+    <p>No songs found</p>
   {% endif %}
 
   <br>

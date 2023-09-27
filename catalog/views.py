@@ -63,6 +63,12 @@ class MusicianListView(generic.ListView):
         return queryset
 
 
+class SongInstrumentFilter(FilterSet):
+    class Meta:
+        model = Performance
+        fields = ["instruments"]
+
+
 class MusicianDetailView(generic.DetailView):
     model = Musician
     queryset = Musician.objects.prefetch_related(
@@ -70,6 +76,16 @@ class MusicianDetailView(generic.DetailView):
         "performance_set__songs",
         "bands"
     )
+
+    def get_context_data(self, **kwargs):
+        context_data = super(MusicianDetailView, self).get_context_data()
+        musician_pk = self.kwargs.get('pk', None)
+        f = SongInstrumentFilter(
+            self.request.GET,
+            queryset=Performance.objects.filter(musician_id=musician_pk)
+        )
+        context_data['filter'] = f
+        return context_data
 
 
 class MusicianCreateView(generic.CreateView):
