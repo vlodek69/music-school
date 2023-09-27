@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic.list import MultipleObjectMixin
+from django_filters import FilterSet
+from django_filters.views import FilterView
 
 from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
     SongForm, PerformanceForm, InstrumentCreationForm, \
@@ -198,9 +200,22 @@ class AlbumDeleteView(generic.DeleteView):
     success_url = reverse_lazy("catalog:band-list")
 
 
-class SongListView(generic.ListView):
+class SongDistinctFilter(FilterSet):
+    class Meta:
+        model = Song
+        fields = ["albums__band"]
+
+    @property
+    def qs(self):
+        parent = super().qs
+
+        return parent.distinct()
+
+
+class SongListView(FilterView):
     model = Song
     paginate_by = 5
+    filterset_class = SongDistinctFilter
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SongListView, self).get_context_data(**kwargs)
