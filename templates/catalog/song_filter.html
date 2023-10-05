@@ -10,10 +10,7 @@
 
   {% include "includes/search_bar.html" %}
 
-  <form method="get">
-    {{ filter.form.as_p }}
-    <input type="submit" value="Filter" />
-  </form>
+  {% include "includes/filter.html" %}
 
   {% if object_list %}
     <table class="table">

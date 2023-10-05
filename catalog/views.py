@@ -80,11 +80,11 @@ class MusicianDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context_data = super(MusicianDetailView, self).get_context_data()
         musician_pk = self.kwargs.get('pk', None)
-        f = SongInstrumentFilter(
+        query_filtered = SongInstrumentFilter(
             self.request.GET,
             queryset=Performance.objects.filter(musician_id=musician_pk)
         )
-        context_data['filter'] = f
+        context_data['filter'] = query_filtered
         return context_data
 
 
@@ -101,7 +101,7 @@ class MusicianUpdateView(generic.UpdateView):
 
 class BandListView(generic.ListView):
     model = Band
-    paginate_by = 5
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(BandListView, self).get_context_data(**kwargs)
@@ -230,7 +230,7 @@ class SongDistinctFilter(FilterSet):
 
 class SongListView(FilterView):
     model = Song
-    paginate_by = 5
+    paginate_by = 10
     filterset_class = SongDistinctFilter
 
     def get_context_data(self, *, object_list=None, **kwargs):
