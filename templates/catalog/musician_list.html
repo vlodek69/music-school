@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "base2.html" %}
 
 {% block content %}
+
   <h1>
     Musician List
     <a href="{% url 'catalog:musician-create' %}" class="btn btn-primary link-to-page">
@@ -31,4 +32,5 @@
   {% else %}
     <p>There are no musicians in the school yet.</p>
   {% endif %}
+
 {% endblock content %}

@@ -1,5 +1,11 @@
 {% load crispy_forms_filters %}
-<form action="" method="get" class="form-inline" style="margin-bottom: 2px" >
-  {{ search_form|crispy }}
-  <input style="margin-left: 2px" class="btn btn-secondary" type="submit" value="🔎">
+<form action="" method="get">
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-auto">{{ search_form|crispy }}</div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">🔎</button>
+      </div>
+    </div>
+  </div>
 </form>
