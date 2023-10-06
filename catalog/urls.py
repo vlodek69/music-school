@@ -1,16 +1,37 @@
 from django.urls import path
 
-from django_filters.views import FilterView
-
-from catalog.models import Song
-from catalog.views import index, MusicianListView, BandListView, SongListView, \
-    SongDetailView, BandDetailView, MusicianDetailView, MusicianCreateView, \
-    MusicianUpdateView, song_create_view, BandCreateView, album_create_view, \
-    album_update_view, song_update_view, BandUpdateView, PerformanceCreateView, \
-    PerformanceUpdateView, InstrumentListView, InstrumentUpdateView, \
-    InstrumentDeleteView, GenreListView, GenreUpdateView, GenreDeleteView, \
-    GenreCreateView, InstrumentCreateView, PerformanceDeleteView, \
-    MusicianDeleteView, BandDeleteView, AlbumDeleteView, SongDeleteView
+from catalog.views import (
+    index,
+    MusicianListView,
+    BandListView,
+    SongListView,
+    SongDetailView,
+    BandDetailView,
+    MusicianDetailView,
+    MusicianCreateView,
+    MusicianUpdateView,
+    song_create_view,
+    BandCreateView,
+    album_create_view,
+    album_update_view,
+    song_update_view,
+    BandUpdateView,
+    PerformanceCreateView,
+    PerformanceUpdateView,
+    InstrumentListView,
+    InstrumentUpdateView,
+    InstrumentDeleteView,
+    GenreListView,
+    GenreUpdateView,
+    GenreDeleteView,
+    GenreCreateView,
+    InstrumentCreateView,
+    PerformanceDeleteView,
+    MusicianDeleteView,
+    BandDeleteView,
+    AlbumDeleteView,
+    SongDeleteView
+)
 
 urlpatterns = [
     path("", index, name="index"),

@@ -10,11 +10,26 @@ from django_filters import FilterSet
 from django_filters.views import FilterView
 
 from catalog.filters import SongInstrumentFilter
-from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
-    SongForm, PerformanceForm, InstrumentCreationForm, \
-    AlbumForm, GenreCreationForm, MusicianSearchForm, ByNameSearchForm
-from catalog.models import Band, Song, Musician, Album, Performance, \
-    Instrument, Genre
+from catalog.forms import (
+    MusicianCreationForm,
+    MusicianUpdateForm,
+    SongForm,
+    PerformanceForm,
+    InstrumentCreationForm,
+    AlbumForm,
+    GenreCreationForm,
+    MusicianSearchForm,
+    ByNameSearchForm
+)
+from catalog.models import (
+    Band,
+    Song,
+    Musician,
+    Album,
+    Performance,
+    Instrument,
+    Genre
+)
 
 
 def index(request):

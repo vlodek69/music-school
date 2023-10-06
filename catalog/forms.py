@@ -1,9 +1,15 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
-from catalog.models import Musician, Song, Performance, Instrument, Album, \
+from catalog.models import (
+    Musician,
+    Song,
+    Performance,
+    Instrument,
+    Album,
     Genre
+)
 
 
 class MusicianCreationForm(UserCreationForm):
@@ -70,8 +76,6 @@ def validate_unique_instruments_set(musician, instruments):
         list(performance.instruments.all().order_by("id")) for performance in
         Performance.objects.filter(musician=musician)
     ]
-    print(list(instrument_sets))
-    print(list(instruments))
     if list(instruments.order_by("id")) in instrument_sets:
         raise ValidationError("Create unique performance for this musician")
 
