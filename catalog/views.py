@@ -9,6 +9,7 @@ from django.views.generic.list import MultipleObjectMixin
 from django_filters import FilterSet
 from django_filters.views import FilterView
 
+from catalog.filters import SongInstrumentFilter
 from catalog.forms import MusicianCreationForm, MusicianUpdateForm, \
     SongForm, PerformanceForm, InstrumentCreationForm, \
     AlbumForm, GenreCreationForm, MusicianSearchForm, ByNameSearchForm
@@ -61,12 +62,6 @@ class MusicianListView(generic.ListView):
             )
 
         return queryset
-
-
-class SongInstrumentFilter(FilterSet):
-    class Meta:
-        model = Performance
-        fields = ["instruments"]
 
 
 class MusicianDetailView(generic.DetailView):
