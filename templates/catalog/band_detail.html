@@ -7,7 +7,7 @@
     <a href="{% url 'catalog:band-update' pk=band.id %}" class="btn btn-primary link-to-page">
       Update band
     </a>
-    <a href="{% url 'catalog:band-delete' pk=band.id %}" class="btn btn-danger link-to-page">
+    <a href="{% url 'catalog:band-delete' pk=band.id %}" class="btn btn-warning link-to-page">
       Delete
     </a>
   </h1>
@@ -36,7 +36,7 @@
         <a href="{% url 'catalog:album-update' pk=album.id %}" class="btn btn-primary">
           Update
         </a>
-        <a href="{% url 'catalog:album-delete' pk=album.id %}" class="btn btn-danger">
+        <a href="{% url 'catalog:album-delete' pk=album.id %}" class="btn btn-warning">
           Delete
         </a>
       </h4>
