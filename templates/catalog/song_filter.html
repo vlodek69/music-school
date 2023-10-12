@@ -30,7 +30,7 @@
           <td>-</td>
         {% endif %}
         {% if song.albums.all %}
-          <td>{{ song.album_list|join:", " }}</td>
+          <td>{{ song.albums.all|join:", " }}</td>
         {% else %}
           <td>-</td>
         {% endif %}

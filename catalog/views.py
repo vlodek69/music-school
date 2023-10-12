@@ -1,7 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
-from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
@@ -83,7 +81,7 @@ class MusicianDetailView(generic.DetailView):
     model = Musician
     queryset = Musician.objects.prefetch_related(
         "performance_set",
-        "performance_set__songs",
+        "performance_set__instruments",
         "bands"
     )
 
@@ -254,7 +252,14 @@ class SongListView(FilterView):
         return context
 
     def get_queryset(self):
-        queryset = Song.objects.prefetch_related("albums", "albums__band")
+        queryset = Song.objects.prefetch_related(
+            Prefetch(
+                "albums",
+                Album.objects.select_related(
+                    "band"
+                )
+            )
+        )
         form = ByNameSearchForm(self.request.GET)
 
         if form.is_valid():

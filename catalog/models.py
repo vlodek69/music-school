@@ -43,6 +43,9 @@ class Performance(models.Model):
     musician = models.ForeignKey(Musician, on_delete=models.CASCADE)
     instruments = models.ManyToManyField(Instrument, related_name="performers")
 
+    class Meta:
+        ordering = ["musician__full_name"]
+
     def __str__(self) -> str:
         instrument_list = [
             instrument.name for instrument in self.instruments.all()
@@ -55,6 +58,9 @@ class Band(models.Model):
     name = models.CharField(max_length=255)
     members = models.ManyToManyField(Musician, related_name="bands")
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self) -> str:
         return self.name
 
@@ -66,12 +72,15 @@ class Song(models.Model):
     name = models.CharField(max_length=255)
     performances = models.ManyToManyField(Performance, related_name="songs")
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self) -> str:
         return self.name
 
-    @property
-    def album_list(self) -> list[str]:
-        return [album.name for album in self.albums.all()]
+    # @property
+    # def album_list(self) -> list[str]:
+    #     return [album.name for album in self.albums.all()]
 
     def get_absolute_url(self):
         return reverse("catalog:song-detail", kwargs={"pk": self.pk})
@@ -89,4 +98,4 @@ class Album(models.Model):
     songs = models.ManyToManyField(Song, related_name="albums")
 
     def __str__(self) -> str:
-        return f"{self.name}({self.band.name})"
+        return self.name

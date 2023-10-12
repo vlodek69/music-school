@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
@@ -40,6 +41,9 @@ class MusicianSearchForm(forms.Form):
 
 class SongForm(forms.ModelForm):
     song = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+    performances = forms.ModelMultipleChoiceField(
+        queryset=Performance.objects.select_related("musician").prefetch_related("instruments")
+    )
 
     class Meta:
         model = Song
