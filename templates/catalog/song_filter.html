@@ -24,8 +24,8 @@
       <tr>
         <td>{{ song.id }}</td>
         <td><a href="{{ song.get_absolute_url }}">{{ song.name }}</a></td>
-        {% if song.albums.first.band %}
-          <td><a href="{{ song.albums.first.band.get_absolute_url }}">{{ song.albums.first.band.name }}</a></td>
+        {% if song.albums.all.0.band %}
+          <td><a href="{{ song.albums.all.0.band.get_absolute_url }}">{{ song.albums.all.0.band.name }}</a></td>
         {% else %}
           <td>-</td>
         {% endif %}

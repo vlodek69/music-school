@@ -78,10 +78,6 @@ class Song(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    # @property
-    # def album_list(self) -> list[str]:
-    #     return [album.name for album in self.albums.all()]
-
     def get_absolute_url(self):
         return reverse("catalog:song-detail", kwargs={"pk": self.pk})
 

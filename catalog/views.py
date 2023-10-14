@@ -80,9 +80,12 @@ class MusicianListView(generic.ListView):
 class MusicianDetailView(generic.DetailView):
     model = Musician
     queryset = Musician.objects.prefetch_related(
-        "performance_set",
-        "performance_set__instruments",
-        "bands"
+        Prefetch(
+            "performance_set",
+            Performance.objects.prefetch_related(
+                "instruments"
+            )
+        )
     )
 
     def get_context_data(self, **kwargs):
@@ -90,7 +93,12 @@ class MusicianDetailView(generic.DetailView):
         musician_pk = self.kwargs.get('pk', None)
         query_filtered = SongInstrumentFilter(
             self.request.GET,
-            queryset=Performance.objects.filter(musician_id=musician_pk)
+            queryset=Performance.objects.filter(musician_id=musician_pk).prefetch_related(
+                Prefetch("songs", Song.objects.prefetch_related(
+                    Prefetch("albums", Album.objects.select_related("band"))
+                )),
+                "instruments"
+            )
         )
         context_data['filter'] = query_filtered
         return context_data
@@ -255,9 +263,7 @@ class SongListView(FilterView):
         queryset = Song.objects.prefetch_related(
             Prefetch(
                 "albums",
-                Album.objects.select_related(
-                    "band"
-                )
+                Album.objects.select_related("band")
             )
         )
         form = ByNameSearchForm(self.request.GET)
