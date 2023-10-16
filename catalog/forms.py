@@ -86,7 +86,6 @@ def validate_unique_instruments_set(musician, instruments):
     return instruments
 
 
-
 class InstrumentCreationForm(forms.ModelForm):
     instrument = forms.BooleanField(widget=forms.HiddenInput, initial=True)
 

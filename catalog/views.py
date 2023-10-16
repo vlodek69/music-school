@@ -8,7 +8,7 @@ from django.views import generic
 from django.views.generic.list import MultipleObjectMixin
 from django_filters.views import FilterView
 
-from catalog.filters import SongInstrumentFilter, SongDistinctFilter
+from catalog.filters import SongInstrumentFilter, SongBandFilterDistinct
 from catalog.forms import (
     MusicianCreationForm,
     MusicianUpdateForm,
@@ -242,7 +242,7 @@ class AlbumDeleteView(LoginRequiredMixin, generic.DeleteView):
 class SongListView(LoginRequiredMixin, FilterView):
     model = Song
     paginate_by = 10
-    filterset_class = SongDistinctFilter
+    filterset_class = SongBandFilterDistinct
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SongListView, self).get_context_data(**kwargs)
