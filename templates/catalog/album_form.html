@@ -10,7 +10,12 @@
     <input type="submit" value="{{ album_form.initial|yesno:"Update,Create" }} album" class="btn btn-primary">
   </form>
 
-  <h1>Create genre</h1>
+  <br>
+
+  <h1>
+    Create genre
+    <small class="text-muted">(Optional, if genre does not exist)</small>
+  </h1>
   <form action="" method="post">
     {% csrf_token %}
     {{ genre_creation_form|crispy }}

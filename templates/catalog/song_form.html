@@ -12,7 +12,10 @@
 
   <br>
 
-  <h3>Create performance</h3>
+  <h4>
+    Create performance
+    <small class="text-muted">(Optional, if performance does not exist)</small>
+  </h4>
   <form action="" method="post">
     {% csrf_token %}
     {{ performance_creation_form|crispy }}
@@ -22,7 +25,10 @@
 
   <br>
 
-  <h3>Create instrument</h3>
+  <h4>
+    Create instrument
+    <small class="text-muted">(Optional, if instrument does not exist)</small>
+  </h4>
   <form action="" method="post">
     {% csrf_token %}
     {{ instrument_creation_form|crispy }}
