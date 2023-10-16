@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic.list import MultipleObjectMixin
-from django_filters import FilterSet
 from django_filters.views import FilterView
 
 from catalog.filters import SongInstrumentFilter, SongDistinctFilter
@@ -93,17 +92,18 @@ class MusicianDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super(MusicianDetailView, self).get_context_data()
-        musician_pk = self.kwargs.get('pk', None)
+        musician_pk = self.kwargs.get("pk", None)
         query_filtered = SongInstrumentFilter(
             self.request.GET,
-            queryset=Performance.objects.filter(musician_id=musician_pk).prefetch_related(
+            queryset=Performance.objects.filter(musician_id=musician_pk).
+            prefetch_related(
                 Prefetch("songs", Song.objects.prefetch_related(
                     Prefetch("albums", Album.objects.select_related("band"))
                 )),
                 "instruments"
             )
         )
-        context_data['filter'] = query_filtered
+        context_data["filter"] = query_filtered
         return context_data
 
 
