@@ -9,7 +9,7 @@ from django.views.generic.list import MultipleObjectMixin
 from django_filters import FilterSet
 from django_filters.views import FilterView
 
-from catalog.filters import SongInstrumentFilter
+from catalog.filters import SongInstrumentFilter, SongDistinctFilter
 from catalog.forms import (
     MusicianCreationForm,
     MusicianUpdateForm,
@@ -237,18 +237,6 @@ def album_update_view(request, pk):
 class AlbumDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Album
     success_url = reverse_lazy("catalog:band-list")
-
-
-class SongDistinctFilter(FilterSet):
-    class Meta:
-        model = Song
-        fields = ["albums__band"]
-
-    @property
-    def qs(self):
-        parent = super().qs
-
-        return parent.distinct()
 
 
 class SongListView(LoginRequiredMixin, FilterView):
