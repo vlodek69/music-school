@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Prefetch
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -30,6 +32,7 @@ from catalog.models import (
 )
 
 
+@login_required
 def index(request):
     num_musicians = get_user_model().objects.count()
     num_bands = Band.objects.count()
@@ -48,7 +51,7 @@ def index(request):
     return render(request, "catalog/index.html", context=context)
 
 
-class MusicianListView(generic.ListView):
+class MusicianListView(LoginRequiredMixin, generic.ListView):
     model = Musician
     paginate_by = 10
 
@@ -77,7 +80,7 @@ class MusicianListView(generic.ListView):
         return queryset
 
 
-class MusicianDetailView(generic.DetailView):
+class MusicianDetailView(LoginRequiredMixin, generic.DetailView):
     model = Musician
     queryset = Musician.objects.prefetch_related(
         Prefetch(
@@ -104,18 +107,18 @@ class MusicianDetailView(generic.DetailView):
         return context_data
 
 
-class MusicianCreateView(generic.CreateView):
+class MusicianCreateView(LoginRequiredMixin, generic.CreateView):
     model = Musician
     form_class = MusicianCreationForm
 
 
-class MusicianUpdateView(generic.UpdateView):
+class MusicianUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Musician
     form_class = MusicianUpdateForm
     success_url = reverse_lazy("catalog:musician-list")
 
 
-class BandListView(generic.ListView):
+class BandListView(LoginRequiredMixin, generic.ListView):
     model = Band
     paginate_by = 10
 
@@ -141,12 +144,14 @@ class BandListView(generic.ListView):
         return queryset
 
 
-class MusicianDeleteView(generic.DeleteView):
+class MusicianDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = get_user_model()
     success_url = reverse_lazy("catalog:musician-list")
 
 
-class BandDetailView(generic.DetailView, MultipleObjectMixin):
+class BandDetailView(
+    LoginRequiredMixin, generic.DetailView, MultipleObjectMixin
+):
     model = Band
     queryset = Band.objects.prefetch_related("members", "albums")
     paginate_by = 5
@@ -158,23 +163,24 @@ class BandDetailView(generic.DetailView, MultipleObjectMixin):
         return context
 
 
-class BandCreateView(generic.CreateView):
+class BandCreateView(LoginRequiredMixin, generic.CreateView):
     model = Band
     fields = "__all__"
     success_url = reverse_lazy("catalog:band-list")
 
 
-class BandUpdateView(generic.UpdateView):
+class BandUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Band
     fields = "__all__"
     success_url = reverse_lazy("catalog:band-list")
 
 
-class BandDeleteView(generic.DeleteView):
+class BandDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Band
     success_url = reverse_lazy("catalog:band-list")
 
 
+@login_required
 def album_create_view(request):
     album_form = AlbumForm()
     genre_creation_form = GenreCreationForm()
@@ -199,6 +205,7 @@ def album_create_view(request):
     return render(request, "catalog/album_form.html", context=context)
 
 
+@login_required
 def album_update_view(request, pk):
     album_obj = get_object_or_404(Album, id=pk)
     album_form = AlbumForm(instance=album_obj)
@@ -227,7 +234,7 @@ def album_update_view(request, pk):
     return render(request, "catalog/album_form.html", context=context)
 
 
-class AlbumDeleteView(generic.DeleteView):
+class AlbumDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Album
     success_url = reverse_lazy("catalog:band-list")
 
@@ -244,7 +251,7 @@ class SongDistinctFilter(FilterSet):
         return parent.distinct()
 
 
-class SongListView(FilterView):
+class SongListView(LoginRequiredMixin, FilterView):
     model = Song
     paginate_by = 10
     filterset_class = SongDistinctFilter
@@ -276,11 +283,12 @@ class SongListView(FilterView):
         return queryset
 
 
-class SongDetailView(generic.DetailView):
+class SongDetailView(LoginRequiredMixin, generic.DetailView):
     model = Song
     queryset = Song.objects.prefetch_related("performances", "albums__band")
 
 
+@login_required
 def song_create_view(request):
     song_form = SongForm()
     performance_creation_form = PerformanceForm()
@@ -309,6 +317,7 @@ def song_create_view(request):
     return render(request, "catalog/song_form.html", context=context)
 
 
+@login_required
 def song_update_view(request, pk):
     song_obj = get_object_or_404(Song, id=pk)
     song_form = SongForm(instance=song_obj)
@@ -338,65 +347,65 @@ def song_update_view(request, pk):
     return render(request, "catalog/song_form.html", context=context)
 
 
-class SongDeleteView(generic.DeleteView):
+class SongDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Song
     success_url = reverse_lazy("catalog:song-list")
 
 
-class PerformanceCreateView(generic.CreateView):
+class PerformanceCreateView(LoginRequiredMixin, generic.CreateView):
     model = Performance
     form_class = PerformanceForm
     success_url = reverse_lazy("catalog:musician-list")
 
 
-class PerformanceUpdateView(generic.UpdateView):
+class PerformanceUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Performance
     form_class = PerformanceForm
     success_url = reverse_lazy("catalog:musician-list")
 
 
-class PerformanceDeleteView(generic.DeleteView):
+class PerformanceDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Performance
     success_url = reverse_lazy("catalog:musician-list")
 
 
-class InstrumentListView(generic.ListView):
+class InstrumentListView(LoginRequiredMixin, generic.ListView):
     model = Instrument
 
 
-class InstrumentCreateView(generic.CreateView):
-    model = Instrument
-    fields = "__all__"
-    success_url = reverse_lazy("catalog:instrument-list")
-
-
-class InstrumentUpdateView(generic.UpdateView):
+class InstrumentCreateView(LoginRequiredMixin, generic.CreateView):
     model = Instrument
     fields = "__all__"
     success_url = reverse_lazy("catalog:instrument-list")
 
 
-class InstrumentDeleteView(generic.DeleteView):
+class InstrumentUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Instrument
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:instrument-list")
+
+
+class InstrumentDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Instrument
     success_url = reverse_lazy("catalog:instrument-list")
 
 
-class GenreListView(generic.ListView):
+class GenreListView(LoginRequiredMixin, generic.ListView):
     model = Genre
 
 
-class GenreCreateView(generic.CreateView):
-    model = Genre
-    fields = "__all__"
-    success_url = reverse_lazy("catalog:genre-list")
-
-
-class GenreUpdateView(generic.UpdateView):
+class GenreCreateView(LoginRequiredMixin, generic.CreateView):
     model = Genre
     fields = "__all__"
     success_url = reverse_lazy("catalog:genre-list")
 
 
-class GenreDeleteView(generic.DeleteView):
+class GenreUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Genre
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:genre-list")
+
+
+class GenreDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Genre
     success_url = reverse_lazy("catalog:genre-list")
