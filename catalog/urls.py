@@ -57,17 +57,17 @@ urlpatterns = [
         name="musician-delete"
     ),
     path(
-        "performance/create",
+        "performance/create/",
         PerformanceCreateView.as_view(),
         name="performance-create"
     ),
     path(
-        "performance/<int:pk>/update",
+        "performance/<int:pk>/update/",
         PerformanceUpdateView.as_view(),
         name="performance-update"
     ),
     path(
-        "performance/<int:pk>/delete",
+        "performance/<int:pk>/delete/",
         PerformanceDeleteView.as_view(),
         name="performance-delete"
     ),
@@ -81,9 +81,9 @@ urlpatterns = [
         "bands/<int:pk>/delete/", BandDeleteView.as_view(), name="band-delete"
     ),
     path("album/create/", album_create_view, name="album-create"),
-    path("album/<int:pk>/update", album_update_view, name="album-update"),
+    path("album/<int:pk>/update/", album_update_view, name="album-update"),
     path(
-        "album/<int:pk>/delete", AlbumDeleteView.as_view(), name="album-delete"
+        "album/<int:pk>/delete/", AlbumDeleteView.as_view(), name="album-delete"
     ),
     path("songs/", SongListView.as_view(), name="song-list"),
     path("songs/<int:pk>/", SongDetailView.as_view(), name="song-detail"),
