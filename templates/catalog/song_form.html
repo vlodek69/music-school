@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_alt_bgc.html" %}
 {% load crispy_forms_filters %}
 
 {% block content %}
@@ -7,7 +7,7 @@
     {% csrf_token %}
     {{ song_form|crispy }}
 
-    <input type="submit" value="{{ song_form.initial|yesno:"Update,Create" }} song" class="btn btn-primary" name="create-song">
+    <input type="submit" value="{{ song_form.initial|yesno:"Update,Create" }} song" class="btn btn-warning" name="create-song">
   </form>
 
   <br>
@@ -20,7 +20,7 @@
     {% csrf_token %}
     {{ performance_creation_form|crispy }}
 
-    <input type="submit" value="Create performance" class="btn btn-primary" name="create-performance">
+    <input type="submit" value="Create performance" class="btn btn-warning" name="create-performance">
   </form>
 
   <br>
@@ -33,7 +33,7 @@
     {% csrf_token %}
     {{ instrument_creation_form|crispy }}
 
-    <input type="submit" value="Create instrument" class="btn btn-primary" name="create-performance">
+    <input type="submit" value="Create instrument" class="btn btn-warning" name="create-performance">
   </form>
 
 {% endblock %}

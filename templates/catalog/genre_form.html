@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_alt_bgc.html" %}
 {% load crispy_forms_filters %}
 
 {% block content %}
@@ -7,6 +7,6 @@
     {% csrf_token %}
     {{ form|crispy }}
 
-    <input type="submit" value="{{ object|yesno:"Update,Create" }}" class="btn btn-primary">
+    <input type="submit" value="{{ object|yesno:"Update,Create" }}" class="btn btn-warning">
   </form>
 {% endblock %}
