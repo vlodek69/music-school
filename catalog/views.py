@@ -1,7 +1,10 @@
+from typing import Any
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q, Prefetch
+from django.db.models import Q, Prefetch, QuerySet
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
@@ -32,7 +35,7 @@ from catalog.models import (
 
 
 @login_required
-def index(request):
+def index(request) -> HttpResponse:
     num_musicians = get_user_model().objects.count()
     num_bands = Band.objects.count()
     num_songs = Song.objects.count()
@@ -54,7 +57,8 @@ class MusicianListView(LoginRequiredMixin, generic.ListView):
     model = Musician
     paginate_by = 10
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, *, object_list=None,
+                         **kwargs) -> dict[str, Any]:
         context = super(MusicianListView, self).get_context_data(**kwargs)
 
         search_input = self.request.GET.get("search_input")
@@ -64,7 +68,7 @@ class MusicianListView(LoginRequiredMixin, generic.ListView):
         })
         return context
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         queryset = get_user_model().objects.all()
         form = MusicianSearchForm(self.request.GET)
 
@@ -90,7 +94,7 @@ class MusicianDetailView(LoginRequiredMixin, generic.DetailView):
         )
     )
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context_data = super(MusicianDetailView, self).get_context_data()
         musician_pk = self.kwargs.get("pk", None)
         query_filtered = SongInstrumentFilter(
@@ -122,7 +126,8 @@ class BandListView(LoginRequiredMixin, generic.ListView):
     model = Band
     paginate_by = 10
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, *, object_list=None,
+                         **kwargs) -> dict[str, Any]:
         context = super(BandListView, self).get_context_data(**kwargs)
 
         search_input = self.request.GET.get("search_input")
@@ -132,7 +137,7 @@ class BandListView(LoginRequiredMixin, generic.ListView):
         })
         return context
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         queryset = Band.objects.all()
         form = ByNameSearchForm(self.request.GET)
 
@@ -156,7 +161,7 @@ class BandDetailView(
     queryset = Band.objects.prefetch_related("members", "albums")
     paginate_by = 5
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         object_list = Album.objects.filter(band=self.get_object())
         context = super(BandDetailView, self).get_context_data(
             object_list=object_list, **kwargs)
@@ -181,7 +186,7 @@ class BandDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 
 @login_required
-def album_create_view(request):
+def album_create_view(request) -> HttpResponse:
     album_form = AlbumForm()
     genre_creation_form = GenreCreationForm()
     if request.method == "POST":
@@ -206,7 +211,7 @@ def album_create_view(request):
 
 
 @login_required
-def album_update_view(request, pk):
+def album_update_view(request, pk) -> HttpResponse:
     album_obj = get_object_or_404(Album, id=pk)
     album_form = AlbumForm(instance=album_obj)
     genre_creation_form = GenreCreationForm()
@@ -244,7 +249,8 @@ class SongListView(LoginRequiredMixin, FilterView):
     paginate_by = 10
     filterset_class = SongBandFilterDistinct
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, *, object_list=None,
+                         **kwargs) -> dict[str, Any]:
         context = super(SongListView, self).get_context_data(**kwargs)
 
         search_input = self.request.GET.get("search_input")
@@ -254,7 +260,7 @@ class SongListView(LoginRequiredMixin, FilterView):
         })
         return context
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         queryset = Song.objects.prefetch_related(
             Prefetch(
                 "albums",
@@ -277,7 +283,7 @@ class SongDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 @login_required
-def song_create_view(request):
+def song_create_view(request) -> HttpResponse:
     song_form = SongForm()
     performance_creation_form = PerformanceForm()
     instrument_creation_form = InstrumentCreationForm()
@@ -306,7 +312,7 @@ def song_create_view(request):
 
 
 @login_required
-def song_update_view(request, pk):
+def song_update_view(request, pk) -> HttpResponse:
     song_obj = get_object_or_404(Song, id=pk)
     song_form = SongForm(instance=song_obj)
     performance_creation_form = PerformanceForm()

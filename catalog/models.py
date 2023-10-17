@@ -29,13 +29,13 @@ class Musician(AbstractUser):
         return self.full_name
 
     @property
-    def instrument_list(self):
+    def instrument_list(self) -> list[str]:
         return list(set(
             instrument.name for performance in self.performance_set.all()
             for instrument in performance.instruments.all()
         ))
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("catalog:musician-detail", kwargs={"pk": self.pk})
 
 
@@ -78,7 +78,7 @@ class Song(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("catalog:song-detail", kwargs={"pk": self.pk})
 
 

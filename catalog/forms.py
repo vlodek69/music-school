@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from django.db.models import QuerySet
 
 from catalog.models import (
     Musician,
@@ -68,14 +69,14 @@ class PerformanceForm(forms.ModelForm):
         model = Performance
         fields = "__all__"
 
-    def clean_instruments(self):
+    def clean_instruments(self) -> QuerySet:
         return validate_unique_instruments_set(
             self.cleaned_data["musician"],
             self.cleaned_data["instruments"]
         )
 
 
-def validate_unique_instruments_set(musician, instruments):
+def validate_unique_instruments_set(musician, instruments) -> QuerySet:
     instrument_sets = [
         list(performance.instruments.all().order_by("id")) for performance in
         Performance.objects.filter(musician=musician)
