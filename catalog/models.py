@@ -6,12 +6,18 @@ from django.urls import reverse
 class Instrument(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self) -> str:
         return self.name
 
 
 class Genre(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self) -> str:
         return self.name
@@ -22,7 +28,7 @@ class Musician(AbstractUser):
     pseudonym = models.CharField(max_length=255, blank=True)
 
     class Meta:
-        ordering = ["username"]
+        ordering = ["full_name"]
         verbose_name = "musician"
 
     def __str__(self) -> str:
