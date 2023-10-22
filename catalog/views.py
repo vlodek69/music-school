@@ -1,11 +1,11 @@
 from typing import Any
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Prefetch, QuerySet
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
+from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic.list import MultipleObjectMixin
@@ -34,23 +34,23 @@ from catalog.models import (
 )
 
 
-@login_required
-def index(request) -> HttpResponse:
-    num_musicians = get_user_model().objects.count()
-    num_bands = Band.objects.count()
-    num_songs = Song.objects.count()
+class IndexView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "catalog/index.html"
 
-    num_visits = request.session.get("num_visits", 0)
-    request.session["num_visits"] = num_visits + 1
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context["num_musicians"] = get_user_model().objects.count()
+        context["num_bands"] = Band.objects.count()
+        context["num_songs"] = Song.objects.count()
 
-    context = {
-        "num_musicians": num_musicians,
-        "num_bands": num_bands,
-        "num_songs": num_songs,
-        "num_visits": num_visits + 1,
-    }
+        return context
 
-    return render(request, "catalog/index.html", context=context)
+    def get(self, request, *args, **kwargs) -> TemplateResponse:
+        context = self.get_context_data(**kwargs)
+        context["num_visits"] = request.session.get("num_visits", 0)
+        request.session["num_visits"] = context["num_visits"] + 1
+
+        return self.render_to_response(context)
 
 
 class MusicianListView(LoginRequiredMixin, generic.ListView):
@@ -283,12 +283,17 @@ class SongDetailView(LoginRequiredMixin, generic.DetailView):
     queryset = Song.objects.prefetch_related("performances", "albums__band")
 
 
-@login_required
-def song_create_view(request) -> HttpResponse:
-    song_form = SongForm()
-    performance_creation_form = PerformanceForm()
-    instrument_creation_form = InstrumentCreationForm()
-    if request.method == "POST":
+class SongCreateView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "catalog/song_form.html"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["song_form"] = SongForm()
+        context["performance_creation_form"] = PerformanceForm()
+        context["instrument_creation_form"] = InstrumentCreationForm()
+        return context
+
+    def post(self, request, *args, **kwargs) -> HttpResponse:
         if "song" in request.POST:
             song_form = SongForm(request.POST)
             if song_form.is_valid():
@@ -304,21 +309,21 @@ def song_create_view(request) -> HttpResponse:
             if instrument_creation_form.is_valid():
                 instrument_creation_form.save()
                 return redirect("catalog:song-create")
-    context = {
-        "song_form": song_form,
-        "performance_creation_form": performance_creation_form,
-        "instrument_creation_form": instrument_creation_form,
-    }
-    return render(request, "catalog/song_form.html", context=context)
 
 
-@login_required
-def song_update_view(request, pk) -> HttpResponse:
-    song_obj = get_object_or_404(Song, id=pk)
-    song_form = SongForm(instance=song_obj)
-    performance_creation_form = PerformanceForm()
-    instrument_creation_form = InstrumentCreationForm()
-    if request.method == "POST":
+class SongUpdateView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "catalog/song_form.html"
+
+    def get_context_data(self, pk, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        song_obj = get_object_or_404(Song, id=pk)
+        context["song_form"] = SongForm(instance=song_obj)
+        context["performance_creation_form"] = PerformanceForm()
+        context["instrument_creation_form"] = InstrumentCreationForm()
+        return context
+
+    def post(self, request, pk, *args, **kwargs) -> HttpResponse:
+        song_obj = get_object_or_404(Song, id=pk)
         if "song" in request.POST:
             song_form = SongForm(request.POST, instance=song_obj)
             if song_form.is_valid():
@@ -334,12 +339,6 @@ def song_update_view(request, pk) -> HttpResponse:
             if instrument_creation_form.is_valid():
                 instrument_creation_form.save()
                 return redirect("catalog:song-update", pk=song_obj.id)
-    context = {
-        "song_form": song_form,
-        "performance_creation_form": performance_creation_form,
-        "instrument_creation_form": instrument_creation_form,
-    }
-    return render(request, "catalog/song_form.html", context=context)
 
 
 class SongDeleteView(LoginRequiredMixin, generic.DeleteView):

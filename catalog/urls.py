@@ -1,38 +1,40 @@
 from django.urls import path
 
 from catalog.views import (
-    index,
+    IndexView,
     MusicianListView,
-    BandListView,
-    SongListView,
-    SongDetailView,
-    BandDetailView,
     MusicianDetailView,
     MusicianCreateView,
     MusicianUpdateView,
-    song_create_view,
-    BandCreateView,
-    song_update_view,
-    BandUpdateView,
+    MusicianDeleteView,
     PerformanceCreateView,
     PerformanceUpdateView,
+    PerformanceDeleteView,
+    BandListView,
+    BandDetailView,
+    BandCreateView,
+    BandUpdateView,
+    BandDeleteView,
+    AlbumCreateView,
+    AlbumUpdateView,
+    AlbumDeleteView,
+    SongListView,
+    SongDetailView,
+    SongCreateView,
+    SongUpdateView,
+    SongDeleteView,
     InstrumentListView,
+    InstrumentCreateView,
     InstrumentUpdateView,
     InstrumentDeleteView,
     GenreListView,
-    GenreUpdateView,
-    GenreDeleteView,
     GenreCreateView,
-    InstrumentCreateView,
-    PerformanceDeleteView,
-    MusicianDeleteView,
-    BandDeleteView,
-    AlbumDeleteView,
-    SongDeleteView, AlbumCreateView, AlbumUpdateView
+    GenreUpdateView,
+    GenreDeleteView
 )
 
 urlpatterns = [
-    path("", index, name="index"),
+    path("", IndexView.as_view(), name="index"),
     path("musicians/", MusicianListView.as_view(), name="musician-list"),
     path(
         "musicians/<int:pk>/",
@@ -79,14 +81,22 @@ urlpatterns = [
         "bands/<int:pk>/delete/", BandDeleteView.as_view(), name="band-delete"
     ),
     path("album/create/", AlbumCreateView.as_view(), name="album-create"),
-    path("album/<int:pk>/update/", AlbumUpdateView.as_view(), name="album-update"),
     path(
-        "album/<int:pk>/delete/", AlbumDeleteView.as_view(), name="album-delete"
+        "album/<int:pk>/update/",
+        AlbumUpdateView.as_view(),
+        name="album-update"
+    ),
+    path(
+        "album/<int:pk>/delete/",
+        AlbumDeleteView.as_view(),
+        name="album-delete"
     ),
     path("songs/", SongListView.as_view(), name="song-list"),
     path("songs/<int:pk>/", SongDetailView.as_view(), name="song-detail"),
-    path("songs/create/", song_create_view, name="song-create"),
-    path("songs/<int:pk>/update/", song_update_view, name="song-update"),
+    path("songs/create/", SongCreateView.as_view(), name="song-create"),
+    path(
+        "songs/<int:pk>/update/", SongUpdateView.as_view(), name="song-update"
+    ),
     path(
         "songs/<int:pk>/delete/", SongDeleteView.as_view(), name="song-delete"
     ),
