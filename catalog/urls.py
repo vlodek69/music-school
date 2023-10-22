@@ -12,7 +12,6 @@ from catalog.views import (
     MusicianUpdateView,
     song_create_view,
     BandCreateView,
-    album_create_view,
     album_update_view,
     song_update_view,
     BandUpdateView,
@@ -30,7 +29,7 @@ from catalog.views import (
     MusicianDeleteView,
     BandDeleteView,
     AlbumDeleteView,
-    SongDeleteView
+    SongDeleteView, AlbumCreateView
 )
 
 urlpatterns = [
@@ -80,7 +79,7 @@ urlpatterns = [
     path(
         "bands/<int:pk>/delete/", BandDeleteView.as_view(), name="band-delete"
     ),
-    path("album/create/", album_create_view, name="album-create"),
+    path("album/create/", AlbumCreateView.as_view(), name="album-create"),
     path("album/<int:pk>/update/", album_update_view, name="album-update"),
     path(
         "album/<int:pk>/delete/", AlbumDeleteView.as_view(), name="album-delete"

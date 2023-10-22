@@ -185,11 +185,40 @@ class BandDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("catalog:band-list")
 
 
-@login_required
-def album_create_view(request) -> HttpResponse:
-    album_form = AlbumForm()
-    genre_creation_form = GenreCreationForm()
-    if request.method == "POST":
+# @login_required
+# def album_create_view(request) -> HttpResponse:
+#     album_form = AlbumForm()
+#     genre_creation_form = GenreCreationForm()
+#     if request.method == "POST":
+#         if "album" in request.POST:
+#             album_form = AlbumForm(request.POST)
+#             if album_form.is_valid():
+#                 album_form.save()
+#                 return redirect(
+#                     "catalog:band-detail",
+#                     pk=album_form.cleaned_data.get("band").id
+#                 )
+#         if "genre" in request.POST:
+#             genre_creation_form = GenreCreationForm(request.POST)
+#             if genre_creation_form.is_valid():
+#                 genre_creation_form.save()
+#                 return redirect("catalog:album-create")
+#     context = {
+#         "album_form": album_form,
+#         "genre_creation_form": genre_creation_form,
+#     }
+#     return render(request, "catalog/album_form.html", context=context)
+
+class AlbumCreateView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "catalog/album_form.html"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["album_form"] = AlbumForm()
+        context["genre_form"] = GenreCreationForm()
+        return context
+
+    def post(self, request, *args, **kwargs) -> HttpResponse:
         if "album" in request.POST:
             album_form = AlbumForm(request.POST)
             if album_form.is_valid():
@@ -199,15 +228,11 @@ def album_create_view(request) -> HttpResponse:
                     pk=album_form.cleaned_data.get("band").id
                 )
         if "genre" in request.POST:
-            genre_creation_form = GenreCreationForm(request.POST)
-            if genre_creation_form.is_valid():
-                genre_creation_form.save()
+            genre_form = GenreCreationForm(request.POST)
+            if genre_form.is_valid():
+                genre_form.save()
                 return redirect("catalog:album-create")
-    context = {
-        "album_form": album_form,
-        "genre_creation_form": genre_creation_form,
-    }
-    return render(request, "catalog/album_form.html", context=context)
+
 
 
 @login_required
