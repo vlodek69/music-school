@@ -7,7 +7,7 @@
     {% csrf_token %}
     {{ album_form|crispy }}
 
-    <input type="submit" value="{{ album_form.initial|yesno:"Update,Create" }} album" class="btn btn-primary">
+    <input type="submit" value="{{ album_form.initial|yesno:"Update,Create" }} album" class="btn btn-warning">
   </form>
 
   <br>

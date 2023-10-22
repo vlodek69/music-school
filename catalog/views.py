@@ -185,30 +185,6 @@ class BandDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("catalog:band-list")
 
 
-# @login_required
-# def album_create_view(request) -> HttpResponse:
-#     album_form = AlbumForm()
-#     genre_creation_form = GenreCreationForm()
-#     if request.method == "POST":
-#         if "album" in request.POST:
-#             album_form = AlbumForm(request.POST)
-#             if album_form.is_valid():
-#                 album_form.save()
-#                 return redirect(
-#                     "catalog:band-detail",
-#                     pk=album_form.cleaned_data.get("band").id
-#                 )
-#         if "genre" in request.POST:
-#             genre_creation_form = GenreCreationForm(request.POST)
-#             if genre_creation_form.is_valid():
-#                 genre_creation_form.save()
-#                 return redirect("catalog:album-create")
-#     context = {
-#         "album_form": album_form,
-#         "genre_creation_form": genre_creation_form,
-#     }
-#     return render(request, "catalog/album_form.html", context=context)
-
 class AlbumCreateView(LoginRequiredMixin, generic.TemplateView):
     template_name = "catalog/album_form.html"
 
@@ -234,13 +210,18 @@ class AlbumCreateView(LoginRequiredMixin, generic.TemplateView):
                 return redirect("catalog:album-create")
 
 
+class AlbumUpdateView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "catalog/album_form.html"
 
-@login_required
-def album_update_view(request, pk) -> HttpResponse:
-    album_obj = get_object_or_404(Album, id=pk)
-    album_form = AlbumForm(instance=album_obj)
-    genre_creation_form = GenreCreationForm()
-    if request.method == "POST":
+    def get_context_data(self, pk, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        album_obj = get_object_or_404(Album, id=pk)
+        context["album_form"] = AlbumForm(instance=album_obj)
+        context["genre_form"] = GenreCreationForm()
+        return context
+
+    def post(self, request, pk, *args, **kwargs) -> HttpResponse:
+        album_obj = get_object_or_404(Album, id=pk)
         if "album" in request.POST:
             album_form = AlbumForm(
                 request.POST,
@@ -253,15 +234,10 @@ def album_update_view(request, pk) -> HttpResponse:
                     pk=album_form.cleaned_data.get("band").id
                 )
         if "genre" in request.POST:
-            genre_creation_form = GenreCreationForm(request.POST)
-            if genre_creation_form.is_valid():
-                genre_creation_form.save()
+            genre_form = GenreCreationForm(request.POST)
+            if genre_form.is_valid():
+                genre_form.save()
                 return redirect("catalog:album-update", pk=pk)
-    context = {
-        "album_form": album_form,
-        "genre_creation_form": genre_creation_form,
-    }
-    return render(request, "catalog/album_form.html", context=context)
 
 
 class AlbumDeleteView(LoginRequiredMixin, generic.DeleteView):
