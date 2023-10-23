@@ -2,6 +2,19 @@
 
 Service for managing catalog of musicians, bands, albums, songs, instruments and genres.
 
+## Installation
+
+Python3 must be already installed
+
+```shell
+git clone https://github.com/vlodek69/music-school
+cd music-school
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+
 ![project_diagram](rattle_music_school.png)
 
 ## Page description
@@ -49,3 +62,6 @@ For example, if you need to catalog a new band with new musicians and songs:
 2. One song can be listed in multiple albums and even different bands.
 3. Musician does not necessarily have to be a member of the band to be listed as a performer in the band's song.
 4. Performance in song can also use "instrument" like "teacher" or "writer" to reflect the role in the song.
+
+## Demo
+![demo](demo.png)
