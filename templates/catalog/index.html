@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <main>
+
+    {% include 'includes/preloader.html' %}
+
+    <div class="text-center">
+      <h1 class="fw-bolder display-2">
+        "Rattle" Music School
+      </h1>
+      <h2 class="lead fw-normal text-muted mb-4 px-lg-10">
+        Welcome to Best Music School Ever!
+      </h2>
+    </div>
+
+
+      <figure class="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2"><svg class="fill-white"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 185.4">
+        <path d="M3000,0v185.4H0V0c496.4,115.6,996.4,173.4,1500,173.4S2503.6,115.6,3000,0z"></path>
+      </svg></figure>
+
+
+
+    <section class="section section-lg">
+      <div class="container">
+        <div class="row justify-content-center mb-5 mb-lg-6">
+          <div class="col-6 col-md-3 text-center mb-4">
+            <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
+              <span class="fas fa-solid fa-podcast text-tertiary"></span>
+            </div>
+            <h3 class="fw-bolder">{{ num_musicians }}</h3>
+            <p class="text-gray">Musicians</p>
+          </div>
+          <div class="col-6 col-md-3 text-center mb-4">
+            <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
+              <span class="fas fa-solid fa-compact-disc text-tertiary"></span>
+            </div>
+            <h3 class="fw-bolder">{{ num_bands }}</h3>
+            <p class="text-gray">Bands</p>
+          </div>
+          <div class="col-6 col-md-3 text-center">
+            <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
+              <span class="fab fas fa-solid fa-file-audio text-tertiary"></span>
+            </div>
+            <h3 class="fw-bolder">{{ num_songs }}</h3>
+            <p class="text-gray">Songs</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <h2 class="lead fw-normal text-muted mb-4 px-lg-10">
+            You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}
+          </h2>
+        </div>
+      </div>
+    </section>
+
+  </main>
+{% endblock %}

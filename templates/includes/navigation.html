@@ -1,0 +1,85 @@
+<header class="header-global">
+  <nav id="navbar-main" aria-label="Primary navigation" class="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-dark">
+    <div class="container position-relative">
+      <a class="navbar-brand me-lg-5" href="{% url 'catalog:index' %}">
+        <img class="navbar-brand-dark" src="{{ ASSETS_ROOT }}/img/brand/light.svg" alt="Logo light">
+        <img class="navbar-brand-light" src="{{ ASSETS_ROOT }}/img/brand/dark.svg" alt="Logo dark">
+      </a>
+      <div class="navbar-collapse collapse me-auto" id="navbar_global">
+        <div class="navbar-collapse-header">
+          <div class="row">
+            <div class="col-6 collapse-brand">
+              <a href="{% url 'catalog:index' %}">
+                <img src="{{ ASSETS_ROOT }}/img/brand/dark.svg" alt="Themesberg logo">
+              </a>
+            </div>
+            <div class="col-6 collapse-close">
+              <a href="#navbar_global" class="fas fa-times" data-bs-toggle="collapse" data-bs-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" title="close" aria-label="Toggle navigation"></a>
+            </div>
+          </div>
+        </div>
+        <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="frontPagesDropdown" aria-expanded="false" data-bs-toggle="dropdown">
+              Pages
+              <span class="fas fa-angle-down nav-link-arrow ms-1"></span>
+            </a>
+            <div class="dropdown-menu dropdown-megamenu px-0 py-2 p-lg-4" aria-labelledby="frontPagesDropdown">
+              <div class="row">
+                <div class="col-6 col-lg-4">
+                  <h6 class="d-block mb-3 text-primary">Main pages</h6>
+                  <ul class="list-style-none mb-4">
+                    <li class="mb-2 megamenu-item">
+                      <a class="megamenu-link" href="{% url 'catalog:musician-list' %}">All musicians</a>
+                    </li>
+                    <li class="mb-2 megamenu-item">
+                      <a class="megamenu-link" href="{% url 'catalog:band-list' %}">All bands</a>
+                    </li>
+                    <li class="mb-2 megamenu-item">
+                      <a class="megamenu-link" href="{% url 'catalog:song-list' %}">All songs</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-6 col-lg-4">
+                  <h6 class="d-block mb-3 text-primary">Inventory</h6>
+                  <ul class="list-style-none mb-4">
+                    <li class="mb-2 megamenu-item">
+                      <a class="megamenu-link" href="{% url 'catalog:instrument-list' %}">All instruments</a>
+                    </li>
+                    <li class="mb-2 megamenu-item">
+                      <a class="megamenu-link" href="{% url 'catalog:genre-list' %}">All genres</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-6 col-lg-4">
+                  <h6 class="d-block mb-3 text-primary">User</h6>
+                  <ul class="list-style-none mb-4">
+                    {% if user.is_authenticated %}
+                      <li class="mb-2 megamenu-item">
+                        <a class="megamenu-link" href="{{ user.get_absolute_url }}">{{ user.get_username }}</a>
+                      </li>
+                  {% else %}
+                    <li class="mb-2 megamenu-item">
+                      <a class="megamenu-link" href="{% url 'login'%}?next={{request.path}}">Sign in</a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="d-flex align-items-center">
+        {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="btn btn-outline-gray-100 d-none d-lg-inline me-md-3"><span class="fas fa-sign-out-alt me-2"></span> Logout</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-outline-gray-100 d-none d-lg-inline me-md-3"><span class="fas fa-sign-in-alt me-2"></span> Login</a>
+        {% endif %}
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>

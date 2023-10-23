@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Song List
+    <a href="{% url 'catalog:song-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+
+  {% include "includes/search_bar.html" %}
+
+  {% if song_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Band</th>
+        <th>Album</th>
+      </tr>
+    {% for song in song_list %}
+      <tr>
+        <td>{{ song.id }}</td>
+        <td><a href="{{ song.get_absolute_url }}">{{ song.name }}</a></td>
+        {% if song.albums.first.band %}
+          <td><a href="{{ song.albums.first.band.get_absolute_url }}">{{ song.albums.first.band.name }}</a></td>
+        {% else %}
+          <td>-</td>
+        {% endif %}
+        {% if song.albums.all %}
+          <td>{{ song.album_list|join:", " }}</td>
+        {% else %}
+          <td>-</td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    </table>
+  {% else %}
+    <p>No songs found</p>
+  {% endif %}
+
+{% endblock content %}

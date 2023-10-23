@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>
+    {{ band.name }}
+    <a href="{% url 'catalog:band-update' pk=band.id %}" class="btn btn-primary link-to-page">
+      Update band
+    </a>
+    <a href="{% url 'catalog:band-delete' pk=band.id %}" class="btn btn-warning link-to-page">
+      Delete
+    </a>
+  </h1>
+
+  {% if band.members %}
+    <h3>Band members:</h3>
+    <ul>
+      {% for member in band.members.all %}
+        <li><a href="{{ member.get_absolute_url }}">{{ member.full_name }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no band members assigned to this band.</p>
+  {% endif %}
+
+  {% if band.albums.all %}
+    <h3>
+      Albums:
+      <a href="{% url 'catalog:album-create' %}" class="btn btn-primary link-to-page">
+        Create album
+      </a>
+    </h3>
+    {% for album in object_list %}
+      <h4>
+        {{ album.name }}({{ album.year_published }})
+        <a href="{% url 'catalog:album-update' pk=album.id %}" class="btn btn-primary">
+          Update
+        </a>
+        <a href="{% url 'catalog:album-delete' pk=album.id %}" class="btn btn-warning">
+          Delete
+        </a>
+      </h4>
+      <h5>Genre: {{ album.genre.name }}</h5>
+      {% if album.songs.all %}
+        <ul>
+          {% for song in album.songs.all %}
+            <li><a href="{{ song.get_absolute_url }}">{{ song.name }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>There are no song on this album yet.</p>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <p>This band has no albums yet.</p>
+    <a href="{% url 'catalog:album-create' %}" class="btn btn-primary">
+      Create album
+    </a>
+  {% endif %}
+
+{% endblock %}

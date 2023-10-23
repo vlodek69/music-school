@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Band List
+    <a href="{% url 'catalog:band-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+
+  {% include "includes/search_bar.html" %}
+
+  {% if band_list %}
+    <ul>
+      {% for band in band_list %}
+        <li><a href="{{ band.get_absolute_url }}">{{ band.name }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No bands found</p>
+  {% endif %}
+{% endblock content %}

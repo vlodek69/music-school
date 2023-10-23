@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Genres
+    <a href="{% url 'catalog:genre-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+  {% if genre_list %}
+    <table class="table">
+      <tr>
+        <th>Genre</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    {% for genre in genre_list %}
+      <tr>
+        <td>{{ genre.name }}</td>
+        <td>
+          <a href="{% url 'catalog:genre-update' pk=genre.id %}">Update</a>
+        </td>
+        <td>
+          <a href="{% url 'catalog:genre-delete' pk=genre.id %}">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+
+    </table>
+  {% else %}
+    <p>There are no genres listed in the school yet.</p>
+  {% endif %}
+{% endblock %}

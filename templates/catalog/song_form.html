@@ -1,0 +1,39 @@
+{% extends "base_alt_bgc.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <h1>{{ song_form.initial|yesno:"Update,Create" }} song</h1>
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ song_form|crispy }}
+
+    <input type="submit" value="{{ song_form.initial|yesno:"Update,Create" }} song" class="btn btn-warning" name="create-song">
+  </form>
+
+  <br>
+
+  <h4>
+    Create performance
+    <small class="text-muted">(Optional, if performance does not exist)</small>
+  </h4>
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ performance_creation_form|crispy }}
+
+    <input type="submit" value="Create performance" class="btn btn-warning" name="create-performance">
+  </form>
+
+  <br>
+
+  <h4>
+    Create instrument
+    <small class="text-muted">(Optional, if instrument does not exist)</small>
+  </h4>
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ instrument_creation_form|crispy }}
+
+    <input type="submit" value="Create instrument" class="btn btn-warning" name="create-performance">
+  </form>
+
+{% endblock %}
