@@ -2,6 +2,10 @@
 
 Service for managing catalog of musicians, bands, albums, songs, instruments and genres.
 
+## Link to website
+
+[Music School project deployed to Render](https://music-school.onrender.com/)
+
 ## Installation
 
 Python3 must be already installed
