@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,9 +30,9 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -100,6 +101,8 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+DATABASE_URL = "postgres://qgavrfhz:1QkqT5kwXqZj6ctrziALC84OCM6No7ES@cornelius.db.elephantsql.com/qgavrfhz"
 
 
 # Password validation
