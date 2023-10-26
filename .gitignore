@@ -359,3 +359,5 @@ db1.json
 templates/catalog/index_legacy.html
 templates/catalog/song_list.html
 templates/base_legacy.html
+postgre_db_data.json
+test_dump.json
