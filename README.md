@@ -6,6 +6,10 @@ Service for managing catalog of musicians, bands, albums, songs, instruments and
 
 [Music School project deployed to Render](https://music-school.onrender.com/)
 
+Test user:
+   - login: test
+   - password: qazcde123
+
 ## Installation
 
 Python3 must be already installed
